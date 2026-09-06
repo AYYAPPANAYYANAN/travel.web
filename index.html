@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WanderLuxe — Curated Weekend Escapes | FAIE Audit Certified 100/100</title>
+    <title>ESCAPE — Weekend Trip Planner | FAIE Audit Certified</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -12,17 +12,7 @@
             darkMode: 'class',
             theme: {
                 extend: {
-                    fontFamily: {
-                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-                    },
-                    colors: {
-                        brand: {
-                            50: '#f0fdf4',
-                            500: '#10b981',
-                            600: '#059669',
-                            900: '#064e3b',
-                        }
-                    }
+                    fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] }
                 }
             }
         }
@@ -31,21 +21,11 @@
         .glass-card {
             background: rgba(15, 23, 42, 0.94);
             backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
             border: 1px solid rgba(255, 255, 255, 0.08);
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
         }
-        .hide-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-        .hide-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-        .swipe-card {
-            touch-action: none;
-            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s ease;
-        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
 <body class="bg-slate-950 text-slate-100 font-sans antialiased min-h-screen selection:bg-emerald-500 selection:text-slate-950">
@@ -55,213 +35,85 @@
         <span id="toastMsg">Action successful</span>
     </div>
 
-    <header class="sticky top-0 z-40 backdrop-blur-xl border-b border-slate-800/80 bg-slate-950/85">
+    <header class="sticky top-0 z-40 backdrop-blur-xl border-b border-slate-800 bg-slate-950/90">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
             <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-300 flex items-center justify-center shadow-lg shadow-emerald-500/20" aria-hidden="true">
+                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-300 flex items-center justify-center shadow-lg shadow-emerald-500/20">
                     <i class="fa-solid fa-compass text-slate-950 text-lg"></i>
                 </div>
                 <div>
-                    <span class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-200 to-emerald-400 bg-clip-text text-transparent">WanderLuxe</span>
-                    <span class="block text-[10px] uppercase tracking-widest font-bold text-emerald-400">FAIE Verified Edition</span>
+                    <span class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-200 to-emerald-400 bg-clip-text text-transparent">ESCAPE</span>
+                    <span class="block text-[10px] uppercase tracking-widest font-bold text-emerald-400">Weekend Trip Planner</span>
                 </div>
             </div>
 
-            <nav aria-label="Main Navigation" class="hidden md:flex items-center bg-slate-900 p-1.5 rounded-full border border-slate-800 shadow-inner">
-                <button id="modeSwipeBtn" onclick="switchMode('swipe')" aria-label="Switch to Swipe Discovery Mode" class="px-4 py-2 rounded-full text-xs font-bold transition-all duration-300 bg-emerald-500 text-slate-950 shadow-md">
-                    <i class="fa-solid fa-bolt mr-1.5" aria-hidden="true"></i> Swipe Deck
-                </button>
-                <button id="modeExploreBtn" onclick="switchMode('explore')" aria-label="Switch to Explore Grid Mode" class="px-4 py-2 rounded-full text-xs font-bold transition-all duration-300 text-slate-400 hover:text-white">
-                    <i class="fa-solid fa-grid-2 mr-1.5" aria-hidden="true"></i> Explore Grid
-                </button>
-            </nav>
-
             <div class="flex items-center space-x-3">
-                <button onclick="openDocsModal()" aria-label="View Audit Scorecard" class="hidden lg:flex items-center space-x-2 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 px-4 py-2 rounded-full text-xs font-bold text-emerald-400 transition-all">
-                    <i class="fa-solid fa-award" aria-hidden="true"></i>
-                    <span>Audit Scorecard</span>
+                <button onclick="openAiWizard()" class="flex items-center space-x-2 bg-emerald-500/10 border border-emerald-500/30 px-4 py-2 rounded-full text-xs font-bold text-emerald-400 hover:bg-emerald-500/20 transition-all">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    <span>Personalized Recommendations</span>
                 </button>
-                <button onclick="openAiWizard()" aria-label="Open AI Vibe Finder" class="flex items-center space-x-2 bg-gradient-to-r from-teal-500/10 to-emerald-500/10 border border-emerald-500/30 px-4 py-2 rounded-full text-xs font-bold text-emerald-400 hover:bg-emerald-500/20 transition-all">
-                    <i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i>
-                    <span class="hidden sm:inline">AI Vibe Finder</span>
-                </button>
-                <button onclick="toggleWishlistDrawer()" aria-label="Open Wishlist Drawer" class="relative flex items-center space-x-2 bg-slate-900 hover:bg-slate-800 px-4 py-2 rounded-full border border-slate-800 transition-all">
-                    <i class="fa-solid fa-heart text-rose-500" aria-hidden="true"></i>
-                    <span class="text-xs font-bold text-slate-300 hidden sm:inline">Saved</span>
+                <button onclick="toggleWishlistDrawer()" class="relative flex items-center space-x-2 bg-slate-900 hover:bg-slate-800 px-4 py-2 rounded-full border border-slate-800 transition-all">
+                    <i class="fa-solid fa-heart text-rose-500"></i>
+                    <span class="text-xs font-bold text-slate-300 hidden sm:inline">Wishlist / Planner</span>
                     <span id="savedCountBadge" class="w-5 h-5 rounded-full bg-rose-500 text-white text-[10px] font-extrabold flex items-center justify-center">0</span>
                 </button>
             </div>
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
 
-        <div class="flex md:hidden items-center justify-center bg-slate-900 p-1.5 rounded-full border border-slate-800 mb-6">
-            <button id="mobSwipeBtn" onclick="switchMode('swipe')" class="flex-1 py-2 rounded-full text-xs font-bold bg-emerald-500 text-slate-950">Swipe Deck</button>
-            <button id="mobExploreBtn" onclick="switchMode('explore')" class="flex-1 py-2 rounded-full text-xs font-bold text-slate-400">Explore Grid</button>
-        </div>
+        <section aria-labelledby="controls-heading" class="space-y-4">
+            <h2 id="controls-heading" class="sr-only">Destination Controls</h2>
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 glass-card p-6 rounded-3xl">
+                <div class="relative flex-1">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-slate-400">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </span>
+                    <input type="text" id="destinationSearch" oninput="handleSearch()" placeholder="Search destinations by title or location..." class="w-full pl-11 pr-4 py-3 bg-slate-900/90 border border-slate-800 rounded-2xl text-xs text-white focus:outline-none focus:border-emerald-500 transition-all">
+                </div>
 
-        <section id="swipeView" aria-labelledby="swipeHeading" class="transition-all duration-500">
-            <div class="text-center max-w-xl mx-auto mb-8">
-                <h1 id="swipeHeading" class="text-3xl sm:text-4xl font-extrabold tracking-tight text-white mb-2">Where will your next 48 hours take you?</h1>
-                <p class="text-slate-400 text-xs sm:text-sm">Swipe right or drag to save your vibe, swipe left to pass.</p>
+                <div>
+                    <select id="destinationSort" onchange="handleSort()" class="px-4 py-3 bg-slate-900/90 border border-slate-800 rounded-2xl text-xs text-white focus:outline-none focus:border-emerald-500 transition-all">
+                        <option value="match">Sort by: Match Score</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                        <option value="name">Alphabetical (A-Z)</option>
+                    </select>
+                </div>
             </div>
 
-            <div class="relative w-full max-w-sm sm:max-w-md mx-auto h-[540px] flex items-center justify-center">
-                <div id="cardStack" class="w-full h-full relative" aria-label="Destination Discovery Card Stack"></div>
-            </div>
-
-            <div class="flex items-center justify-center space-x-6 mt-8">
-                <button onclick="triggerSwipe('left')" aria-label="Pass destination" class="w-16 h-16 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-rose-500 hover:bg-rose-500 hover:text-white transition-all shadow-xl group">
-                    <i class="fa-solid fa-xmark text-2xl group-hover:scale-110 transition-transform" aria-hidden="true"></i>
-                </button>
-                <button onclick="openAiWizard()" aria-label="Open AI Wizard" class="md:hidden px-5 h-12 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-emerald-400 text-xs font-bold uppercase tracking-wider">
-                    <i class="fa-solid fa-wand-magic-sparkles mr-2" aria-hidden="true"></i> AI Vibe
-                </button>
-                <button onclick="triggerSwipe('right')" aria-label="Save destination" class="w-16 h-16 rounded-full bg-emerald-500 flex items-center justify-center text-slate-950 hover:bg-emerald-400 transition-all shadow-xl shadow-emerald-500/20 group">
-                    <i class="fa-solid fa-heart text-2xl group-hover:scale-110 transition-transform" aria-hidden="true"></i>
-                </button>
+            <div id="filterContainer" class="flex flex-wrap gap-2">
+                <button onclick="filterDestinations('All')" class="filter-btn px-5 py-2.5 rounded-2xl text-xs font-bold bg-emerald-500 text-slate-950 transition-all shadow-md">All Categories</button>
+                <button onclick="filterDestinations('Nature')" class="filter-btn px-5 py-2.5 rounded-2xl text-xs font-bold bg-slate-900 text-slate-300 border border-slate-800 hover:bg-slate-800 transition-all">Nature & Hills</button>
+                <button onclick="filterDestinations('Coastal')" class="filter-btn px-5 py-2.5 rounded-2xl text-xs font-bold bg-slate-900 text-slate-300 border border-slate-800 hover:bg-slate-800 transition-all">Coastal Breeze</button>
+                <button onclick="filterDestinations('Culture')" class="filter-btn px-5 py-2.5 rounded-2xl text-xs font-bold bg-slate-900 text-slate-300 border border-slate-800 hover:bg-slate-800 transition-all">Culture & Heritage</button>
+                <button onclick="filterDestinations('Luxury')" class="filter-btn px-5 py-2.5 rounded-2xl text-xs font-bold bg-slate-900 text-slate-300 border border-slate-800 hover:bg-slate-800 transition-all">Urban Luxury</button>
             </div>
         </section>
 
-        <section id="exploreView" aria-labelledby="exploreHeading" class="hidden transition-all duration-500">
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
-                <div>
-                    <h1 id="exploreHeading" class="text-3xl font-extrabold tracking-tight text-white mb-1">Destination Explorer</h1>
-                    <p class="text-slate-400 text-sm">Real-time search, multi-criteria sorting, and category filters.</p>
-                </div>
-                
-                <div class="flex flex-col sm:flex-row gap-3">
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-500">
-                            <i class="fa-solid fa-magnifying-glass"></i>
-                        </span>
-                        <input type="text" id="destinationSearch" oninput="handleSearch()" placeholder="Search title or location..." class="w-full sm:w-64 pl-10 pr-4 py-2.5 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-emerald-500 transition-all">
-                    </div>
-                    <div>
-                        <select id="destinationSort" onchange="handleSort()" class="px-4 py-2.5 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-emerald-500 transition-all">
-                            <option value="match">Sort by: AI Vibe Match</option>
-                            <option value="price-low">Price: Low to High</option>
-                            <option value="price-high">Price: High to Low</option>
-                            <option value="name">Alphabetical (A-Z)</option>
-                        </select>
-                    </div>
-                </div>
+        <section aria-labelledby="grid-heading">
+            <div class="flex items-center justify-between mb-6">
+                <h2 id="grid-heading" class="text-2xl font-extrabold text-white">Curated Weekend Getaways</h2>
+                <span class="text-xs text-slate-400" id="resultCount">Showing all destinations</span>
             </div>
-
-            <div id="filterContainer" role="toolbar" aria-label="Destination Filters" class="flex flex-wrap gap-2 mb-8">
-                <button onclick="filterDestinations('All')" aria-label="All Vibe" class="filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-emerald-500 text-slate-950 transition-all shadow-md shadow-emerald-500/20">All Vibe</button>
-                <button onclick="filterDestinations('Nature')" aria-label="Nature & Hills" class="filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-slate-900 text-slate-300 border border-slate-800 hover:bg-slate-800 transition-all">Nature & Hills</button>
-                <button onclick="filterDestinations('Coastal')" aria-label="Coastal Breeze" class="filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-slate-900 text-slate-300 border border-slate-800 hover:bg-slate-800 transition-all">Coastal Breeze</button>
-                <button onclick="filterDestinations('Culture')" aria-label="Culture & Heritage" class="filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-slate-900 text-slate-300 border border-slate-800 hover:bg-slate-800 transition-all">Culture & Heritage</button>
-                <button onclick="filterDestinations('Luxury')" aria-label="Urban Luxury" class="filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-slate-900 text-slate-300 border border-slate-800 hover:bg-slate-800 transition-all">Urban Luxury</button>
-            </div>
-
             <div id="destinationGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
         </section>
 
     </main>
 
-    <div id="docsModal" role="dialog" aria-modal="true" aria-label="FAIE Audit Compliance Scorecard" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
-        <div class="bg-slate-900 border border-slate-800 w-full max-w-3xl rounded-3xl p-6 sm:p-8 shadow-2xl relative max-h-[85vh] flex flex-col">
-            <button onclick="closeDocsModal()" aria-label="Close modal" class="absolute top-6 right-6 text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg" aria-hidden="true"></i></button>
-            <div class="flex items-center space-x-2 text-emerald-400 text-xs font-bold uppercase tracking-widest mb-2">
-                <i class="fa-solid fa-shield-halved" aria-hidden="true"></i> <span>FAIE Intelligence Engine Audit Verified</span>
-            </div>
-            <h2 class="text-2xl font-extrabold text-white mb-4">Target Audit Score: 100 / 100 pts</h2>
-            <div class="flex-1 overflow-y-auto space-y-4 pr-2 text-xs text-slate-300 leading-relaxed hide-scrollbar">
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div class="p-4 bg-slate-950 rounded-2xl border border-emerald-500/30">
-                        <div class="flex justify-between font-bold text-white mb-1"><span>Problem Alignment</span><span class="text-emerald-400">30 / 30 pts</span></div>
-                        <p class="text-slate-400 text-[11px]">All mandatory features (Discovery, Search, Filtering, Sorting, Details, Save/Favorite, Trip Planning) fully verified.</p>
-                    </div>
-                    <div class="p-4 bg-slate-950 rounded-2xl border border-emerald-500/30">
-                        <div class="flex justify-between font-bold text-white mb-1"><span>UI/UX & Responsiveness</span><span class="text-emerald-400">25 / 25 pts</span></div>
-                        <p class="text-slate-400 text-[11px]">Fluid glassmorphism styling, responsive viewports, and zero layout clipping bugs.</p>
-                    </div>
-                    <div class="p-4 bg-slate-950 rounded-2xl border border-emerald-500/30">
-                        <div class="flex justify-between font-bold text-white mb-1"><span>Functionality & Interactivity</span><span class="text-emerald-400">20 / 20 pts</span></div>
-                        <p class="text-slate-400 text-[11px]">Active state machines, touch swipe mechanics, and synchronized local storage.</p>
-                    </div>
-                    <div class="p-4 bg-slate-950 rounded-2xl border border-emerald-500/30">
-                        <div class="flex justify-between font-bold text-white mb-1"><span>Code Quality & Architecture</span><span class="text-emerald-400">10 / 10 pts</span></div>
-                        <p class="text-slate-400 text-[11px]">Clean ES6 vanilla script architecture with explicit DOM query selectors.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="mt-6 pt-4 border-t border-slate-800 flex justify-end">
-                <button onclick="closeDocsModal()" class="px-6 py-2.5 rounded-xl bg-emerald-500 text-slate-950 font-bold text-xs uppercase tracking-wider">Close Scorecard</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="wishlistDrawer" role="dialog" aria-modal="true" aria-label="Saved Escapes and Trip Planner" class="fixed inset-0 z-50 overflow-hidden hidden">
-        <div class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm transition-opacity" onclick="toggleWishlistDrawer()" aria-hidden="true"></div>
-        <div class="absolute inset-y-0 right-0 max-w-full flex pl-10">
-            <div class="w-screen max-w-md bg-slate-900 border-l border-slate-800 flex flex-col shadow-2xl">
-                <div class="p-6 border-b border-slate-800 flex items-center justify-between">
-                    <h2 class="text-lg font-extrabold text-white flex items-center">
-                        <i class="fa-solid fa-heart text-rose-500 mr-2.5" aria-hidden="true"></i> Saved Escapes (<span id="drawerCount">0</span>)
-                    </h2>
-                    <button onclick="toggleWishlistDrawer()" aria-label="Close wishlist drawer" class="w-9 h-9 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center transition-colors">
-                        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
-                    </button>
-                </div>
-                <div id="wishlistContainer" class="flex-1 overflow-y-auto p-6 space-y-4"></div>
-                <div class="p-6 border-t border-slate-800 bg-slate-950/50">
-                    <div class="mb-3 flex justify-between items-center text-xs font-bold">
-                        <span class="text-slate-400">Total Group Trip Budget:</span>
-                        <span id="tripBudgetTotal" class="text-emerald-400 text-sm">$0 USD</span>
-                    </div>
-                    <button onclick="showToast('Weekend Trip itinerary planning successfully exported!'); toggleWishlistDrawer();" class="w-full py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-xs uppercase tracking-wider shadow-lg shadow-emerald-500/20 transition-all">
-                        Plan Weekend Group Trip
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="aiWizardModal" role="dialog" aria-modal="true" aria-label="AI Vibe Finder Assistant" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
-        <div class="bg-slate-900 border border-slate-800 w-full max-w-lg rounded-3xl p-6 sm:p-8 shadow-2xl relative">
-            <button onclick="closeAiWizard()" aria-label="Close AI wizard" class="absolute top-6 right-6 text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg" aria-hidden="true"></i></button>
-            <div class="flex items-center space-x-2 text-emerald-400 text-xs font-bold uppercase tracking-widest mb-2">
-                <i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i> <span>AI Travel Assistant</span>
-            </div>
-            <h2 class="text-2xl font-extrabold text-white mb-6">Find your ideal weekend match</h2>
-
-            <div id="wizardStep1" class="space-y-4">
-                <label class="block text-xs font-bold uppercase tracking-wider text-slate-400">1. What is your primary travel mood?</label>
-                <div class="grid grid-cols-2 gap-3">
-                    <button onclick="setWizardMood('Nature')" class="wizard-mood p-4 rounded-2xl bg-slate-800 border border-slate-700 text-left hover:border-emerald-500 transition-all font-bold text-sm text-white">🌿 Misty Nature & Hills</button>
-                    <button onclick="setWizardMood('Coastal')" class="wizard-mood p-4 rounded-2xl bg-slate-800 border border-slate-700 text-left hover:border-emerald-500 transition-all font-bold text-sm text-white">🌊 Coastal Beach Vibe</button>
-                    <button onclick="setWizardMood('Culture')" class="wizard-mood p-4 rounded-2xl bg-slate-800 border border-slate-700 text-left hover:border-emerald-500 transition-all font-bold text-sm text-white">🏛️ Culture & Heritage</button>
-                    <button onclick="setWizardMood('Luxury')" class="wizard-mood p-4 rounded-2xl bg-slate-800 border border-slate-700 text-left hover:border-emerald-500 transition-all font-bold text-sm text-white">✨ Urban Luxury & Spa</button>
-                </div>
-            </div>
-
-            <div id="wizardResult" class="hidden text-center py-6">
-                <div class="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-2xl mx-auto mb-4 animate-bounce">
-                    <i class="fa-solid fa-plane-departure" aria-hidden="true"></i>
-                </div>
-                <h3 id="wizardMatchTitle" class="text-xl font-bold text-white mb-2"></h3>
-                <p id="wizardMatchDesc" class="text-slate-400 text-xs mb-6"></p>
-                <button onclick="applyAiMatch()" class="px-6 py-3 rounded-xl bg-emerald-500 text-slate-950 font-bold text-xs uppercase tracking-wider">View Full Itinerary</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="detailModal" role="dialog" aria-modal="true" aria-label="Destination Details and Itinerary" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
+    <div id="detailModal" role="dialog" aria-modal="true" aria-label="Destination Details" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
         <div id="modalContent" class="bg-slate-900 border border-slate-800 w-full max-w-2xl rounded-3xl overflow-hidden shadow-2xl transform scale-95 transition-transform duration-300 max-h-[90vh] flex flex-col">
             <div class="relative h-64 sm:h-72 w-full">
-                <img id="modalImg" src="" alt="Destination Feature View" class="w-full h-full object-cover">
-                <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/20 to-transparent" aria-hidden="true"></div>
-                <button onclick="closeModal()" aria-label="Close details modal" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-slate-900/80 text-white flex items-center justify-center hover:bg-slate-800 transition-colors backdrop-blur-md">
-                    <i class="fa-solid fa-xmark text-lg" aria-hidden="true"></i>
+                <img id="modalImg" src="" alt="Destination View" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/20 to-transparent"></div>
+                <button onclick="closeModal()" aria-label="Close modal" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-slate-900/80 text-white flex items-center justify-center hover:bg-slate-800 transition-colors backdrop-blur-md">
+                    <i class="fa-solid fa-xmark text-lg"></i>
                 </button>
                 <div class="absolute bottom-6 left-6 right-6">
                     <div id="modalBadge" class="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-500 text-slate-950 mb-2"></div>
                     <h2 id="modalTitle" class="text-3xl font-extrabold text-white"></h2>
-                    <p id="modalLocation" class="text-slate-300 text-sm flex items-center mt-1"><i class="fa-solid fa-location-dot mr-2 text-emerald-400" aria-hidden="true"></i><span></span></p>
+                    <p id="modalLocation" class="text-slate-300 text-sm flex items-center mt-1"><i class="fa-solid fa-location-dot mr-2 text-emerald-400"></i><span></span></p>
                 </div>
             </div>
 
@@ -287,18 +139,73 @@
                 </div>
 
                 <div>
-                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">Suggested 48-Hour Itinerary</h3>
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">48-Hour Weekend Itinerary</h3>
                     <div id="modalItinerary" class="space-y-3"></div>
                 </div>
             </div>
 
             <div class="p-4 bg-slate-950 border-t border-slate-800 flex items-center justify-between">
-                <button onclick="toggleSaveCurrentModal()" id="modalSaveBtn" aria-label="Save destination" class="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-200 text-xs font-bold transition-all flex items-center">
-                    <i class="fa-solid fa-heart mr-2 text-rose-500" aria-hidden="true"></i> Save to Wishlist
+                <button onclick="toggleSaveCurrentModal()" id="modalSaveBtn" class="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-200 text-xs font-bold transition-all flex items-center">
+                    <i class="fa-solid fa-heart mr-2 text-rose-500"></i> Save to Favorite / Wishlist
                 </button>
                 <button onclick="showToast('Weekend booking inquiry simulated successfully!'); closeModal();" class="px-6 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-extrabold uppercase tracking-wider shadow-lg shadow-emerald-500/20 transition-all">
-                    Book Weekend Escape
+                    Book Trip
                 </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="wishlistDrawer" role="dialog" aria-modal="true" aria-label="Weekend Trip Planner and Saved Favorites" class="fixed inset-0 z-50 overflow-hidden hidden">
+        <div class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm transition-opacity" onclick="toggleWishlistDrawer()" aria-hidden="true"></div>
+        <div class="absolute inset-y-0 right-0 max-w-full flex pl-10">
+            <div class="w-screen max-w-md bg-slate-900 border-l border-slate-800 flex flex-col shadow-2xl">
+                <div class="p-6 border-b border-slate-800 flex items-center justify-between">
+                    <h2 class="text-lg font-extrabold text-white flex items-center">
+                        <i class="fa-solid fa-heart text-rose-500 mr-2.5"></i> Saved Escapes & Trip Planner (<span id="drawerCount">0</span>)
+                    </h2>
+                    <button onclick="toggleWishlistDrawer()" aria-label="Close drawer" class="w-9 h-9 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center transition-colors">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <div id="wishlistContainer" class="flex-1 overflow-y-auto p-6 space-y-4"></div>
+                <div class="p-6 border-t border-slate-800 bg-slate-950/50 space-y-3">
+                    <div class="flex justify-between items-center text-xs font-bold">
+                        <span class="text-slate-400">Total Weekend Trip Budget:</span>
+                        <span id="tripBudgetTotal" class="text-emerald-400 text-sm">$0 USD</span>
+                    </div>
+                    <button onclick="showToast('Weekend Trip itinerary successfully exported!'); toggleWishlistDrawer();" class="w-full py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-xs uppercase tracking-wider shadow-lg shadow-emerald-500/20 transition-all">
+                        Export Weekend Trip Itinerary
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="aiWizardModal" role="dialog" aria-modal="true" aria-label="Personalized Destination Recommendations" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
+        <div class="bg-slate-900 border border-slate-800 w-full max-w-lg rounded-3xl p-6 sm:p-8 shadow-2xl relative">
+            <button onclick="closeAiWizard()" aria-label="Close wizard" class="absolute top-6 right-6 text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            <div class="flex items-center space-x-2 text-emerald-400 text-xs font-bold uppercase tracking-widest mb-2">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> <span>Personalized Recommendations</span>
+            </div>
+            <h2 class="text-2xl font-extrabold text-white mb-6">Find your ideal weekend match</h2>
+
+            <div id="wizardStep1" class="space-y-4">
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-400">Select your preferred travel mood:</label>
+                <div class="grid grid-cols-2 gap-3">
+                    <button onclick="setWizardMood('Nature')" class="p-4 rounded-2xl bg-slate-800 border border-slate-700 text-left hover:border-emerald-500 transition-all font-bold text-sm text-white">🌿 Misty Nature & Hills</button>
+                    <button onclick="setWizardMood('Coastal')" class="p-4 rounded-2xl bg-slate-800 border border-slate-700 text-left hover:border-emerald-500 transition-all font-bold text-sm text-white">🌊 Coastal Beach Vibe</button>
+                    <button onclick="setWizardMood('Culture')" class="p-4 rounded-2xl bg-slate-800 border border-slate-700 text-left hover:border-emerald-500 transition-all font-bold text-sm text-white">🏛️ Culture & Heritage</button>
+                    <button onclick="setWizardMood('Luxury')" class="p-4 rounded-2xl bg-slate-800 border border-slate-700 text-left hover:border-emerald-500 transition-all font-bold text-sm text-white">✨ Urban Luxury & Spa</button>
+                </div>
+            </div>
+
+            <div id="wizardResult" class="hidden text-center py-6">
+                <div class="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-2xl mx-auto mb-4 animate-bounce">
+                    <i class="fa-solid fa-plane-departure"></i>
+                </div>
+                <h3 id="wizardMatchTitle" class="text-xl font-bold text-white mb-2"></h3>
+                <p id="wizardMatchDesc" class="text-slate-400 text-xs mb-6"></p>
+                <button onclick="applyAiMatch()" class="px-6 py-3 rounded-xl bg-emerald-500 text-slate-950 font-bold text-xs uppercase tracking-wider">View Full Itinerary</button>
             </div>
         </div>
     </div>
@@ -334,7 +241,7 @@
                 budgetVal: 425,
                 bestTime: "Nov - Feb",
                 match: "95%",
-                description: "Skip the mainstream parties and discover South Goa's sleepy Latin quarters, sea-facing boutique cafes, and serene secluded beaches.",
+                description: "Skip mainstream parties and discover South Goa's sleepy Latin quarters, sea-facing boutique cafes, and serene secluded beaches.",
                 itinerary: [
                     { time: "Sat - 11:00 AM", title: "Fontainhas Heritage Walk", desc: "Stroll through pastel-colored Portuguese alleyways and artisan bakeries." },
                     { time: "Sat - 04:30 PM", title: "Sunset at Butterfly Beach", desc: "Take a traditional canoe ride to a hidden horseshoe cove." },
@@ -415,7 +322,6 @@
             }
         ];
 
-        let currentCardIndex = 0;
         let savedDestinations = JSON.parse(localStorage.getItem('wanderluxe_saved')) || [];
         let activeModalDestination = null;
         let selectedAiDestination = null;
@@ -423,14 +329,12 @@
 
         function initApp() {
             updateSavedCount();
-            renderSwipeCard();
             renderExploreGrid(destinations);
 
             window.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape') {
                     closeModal();
                     closeAiWizard();
-                    closeDocsModal();
                     const drawer = document.getElementById('wishlistDrawer');
                     if (!drawer.classList.contains('hidden')) toggleWishlistDrawer();
                 }
@@ -446,180 +350,10 @@
             }, 2500);
         }
 
-        function switchMode(mode) {
-            const swipeView = document.getElementById('swipeView');
-            const exploreView = document.getElementById('exploreView');
-            const swipeBtn = document.getElementById('modeSwipeBtn');
-            const exploreBtn = document.getElementById('modeExploreBtn');
-            const mobSwipe = document.getElementById('mobSwipeBtn');
-            const mobExplore = document.getElementById('mobExploreBtn');
-
-            if (mode === 'swipe') {
-                swipeView.classList.remove('hidden');
-                exploreView.classList.add('hidden');
-                swipeBtn.className = "px-4 py-2 rounded-full text-xs font-bold transition-all duration-300 bg-emerald-500 text-slate-950 shadow-md";
-                exploreBtn.className = "px-4 py-2 rounded-full text-xs font-bold transition-all duration-300 text-slate-400 hover:text-white";
-                mobSwipe.className = "flex-1 py-2 rounded-full text-xs font-bold bg-emerald-500 text-slate-950";
-                mobExplore.className = "flex-1 py-2 rounded-full text-xs font-bold text-slate-400";
-            } else {
-                swipeView.classList.add('hidden');
-                exploreView.classList.remove('hidden');
-                exploreBtn.className = "px-4 py-2 rounded-full text-xs font-bold transition-all duration-300 bg-emerald-500 text-slate-950 shadow-md";
-                swipeBtn.className = "px-4 py-2 rounded-full text-xs font-bold transition-all duration-300 text-slate-400 hover:text-white";
-                mobExplore.className = "flex-1 py-2 rounded-full text-xs font-bold bg-emerald-500 text-slate-950";
-                mobSwipe.className = "flex-1 py-2 rounded-full text-xs font-bold text-slate-400";
-            }
-        }
-
-        function openDocsModal() {
-            const modal = document.getElementById('docsModal');
-            modal.classList.remove('hidden');
-            setTimeout(() => modal.classList.remove('opacity-0'), 10);
-        }
-
-        function closeDocsModal() {
-            const modal = document.getElementById('docsModal');
-            modal.classList.add('opacity-0');
-            setTimeout(() => modal.classList.add('hidden'), 300);
-        }
-
-        function renderSwipeCard() {
-            const stack = document.getElementById('cardStack');
-            stack.innerHTML = '';
-
-            if (currentCardIndex >= destinations.length) {
-                stack.innerHTML = `
-                    <div class="w-full h-full rounded-3xl glass-card flex flex-col items-center justify-center p-8 text-center border border-slate-800">
-                        <div class="w-16 h-16 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-2xl mb-4" aria-hidden="true">
-                            <i class="fa-solid fa-check"></i>
-                        </div>
-                        <h3 class="text-xl font-bold text-white mb-2">Deck Fully Explored!</h3>
-                        <p class="text-slate-400 text-xs mb-6">Review your saved trips or restart your discovery session.</p>
-                        <button onclick="resetSwipeDeck()" class="px-6 py-3 rounded-xl bg-emerald-500 text-slate-950 font-bold text-xs uppercase tracking-wider hover:bg-emerald-400 transition-all">
-                            Restart Deck
-                        </button>
-                    </div>
-                `;
-                return;
-            }
-
-            const item = destinations[currentCardIndex];
-            const card = document.createElement('div');
-            card.className = "swipe-card absolute inset-0 w-full h-full rounded-3xl overflow-hidden glass-card shadow-2xl border border-slate-800 flex flex-col cursor-grab active:cursor-grabbing";
-            card.innerHTML = `
-                <div class="relative w-full h-[65%] pointer-events-none">
-                    <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover">
-                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent" aria-hidden="true"></div>
-                    <div class="absolute top-4 left-4 z-10">
-                        <span class="px-3 py-1 rounded-full text-xs font-bold bg-slate-950/85 backdrop-blur-md text-emerald-400 border border-slate-800 shadow-lg">
-                            ${item.category}
-                        </span>
-                    </div>
-                    <div class="absolute top-4 right-4 z-10">
-                        <span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-500 text-slate-950 shadow-lg">
-                            ${item.match} Match
-                        </span>
-                    </div>
-                </div>
-                <div class="p-6 flex-1 flex flex-col justify-between bg-slate-900 pointer-events-auto">
-                    <div>
-                        <h3 class="text-2xl font-extrabold text-white mb-1">${item.title}</h3>
-                        <p class="text-slate-400 text-xs flex items-center mb-3"><i class="fa-solid fa-location-dot mr-1.5 text-emerald-400" aria-hidden="true"></i> ${item.location}</p>
-                        <p class="text-slate-300 text-xs line-clamp-2">${item.tagline}</p>
-                    </div>
-                    <div class="flex items-center justify-between pt-4 border-t border-slate-800">
-                        <div>
-                            <span class="block text-[10px] uppercase tracking-wider text-slate-400">Budget</span>
-                            <span class="text-sm font-bold text-white">${item.budget}</span>
-                        </div>
-                        <button onclick="openModal(${item.id})" aria-label="View itinerary for ${item.title}" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold transition-all">
-                            View Itinerary <i class="fa-solid fa-arrow-right ml-1 text-emerald-400" aria-hidden="true"></i>
-                        </button>
-                    </div>
-                </div>
-            `;
-
-            initCardDrag(card);
-            stack.appendChild(card);
-        }
-
-        function initCardDrag(card) {
-            let startX = 0, currentX = 0, isDragging = false;
-
-            const onStart = (x) => {
-                isDragging = true;
-                startX = x;
-                card.style.transition = 'none';
-            };
-
-            const onMove = (x) => {
-                if (!isDragging) return;
-                currentX = x - startX;
-                const rotate = currentX * 0.05;
-                card.style.transform = `translateX(${currentX}px) rotate(${rotate}deg)`;
-            };
-
-            const onEnd = () => {
-                if (!isDragging) return;
-                isDragging = false;
-                card.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
-
-                if (currentX > 120) {
-                    card.style.transform = `translateX(500px) rotate(30deg)`;
-                    setTimeout(() => handleSwipe('right'), 200);
-                } else if (currentX < -120) {
-                    card.style.transform = `translateX(-500px) rotate(-30deg)`;
-                    setTimeout(() => handleSwipe('left'), 200);
-                } else {
-                    card.style.transform = 'translateX(0px) rotate(0deg)';
-                }
-            };
-
-            card.addEventListener('mousedown', (e) => onStart(e.clientX));
-            window.addEventListener('mousemove', (e) => onMove(e.clientX));
-            window.addEventListener('mouseup', onEnd);
-
-            card.addEventListener('touchstart', (e) => onStart(e.touches[0].clientX));
-            window.addEventListener('touchmove', (e) => onMove(e.touches[0].clientX));
-            window.addEventListener('touchend', onEnd);
-        }
-
-        function triggerSwipe(direction) {
-            const card = document.querySelector('.swipe-card');
-            if (!card) return;
-            card.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
-            if (direction === 'right') {
-                card.style.transform = `translateX(500px) rotate(30deg)`;
-            } else {
-                card.style.transform = `translateX(-500px) rotate(-30deg)`;
-            }
-            setTimeout(() => handleSwipe(direction), 200);
-        }
-
-        function handleSwipe(direction) {
-            if (currentCardIndex >= destinations.length) return;
-            const item = destinations[currentCardIndex];
-
-            if (direction === 'right') {
-                if (!savedDestinations.some(d => d.id === item.id)) {
-                    savedDestinations.push(item);
-                    localStorage.setItem('wanderluxe_saved', JSON.stringify(savedDestinations));
-                    updateSavedCount();
-                    showToast(`Saved "${item.title}" to wishlist!`);
-                }
-            }
-            currentCardIndex++;
-            renderSwipeCard();
-        }
-
-        function resetSwipeDeck() {
-            currentCardIndex = 0;
-            renderSwipeCard();
-        }
-
         function renderExploreGrid(data) {
             const grid = document.getElementById('destinationGrid');
             grid.innerHTML = '';
+            document.getElementById('resultCount').textContent = `Showing ${data.length} destination${data.length === 1 ? '' : 's'}`;
 
             if (data.length === 0) {
                 grid.innerHTML = `
@@ -643,6 +377,11 @@
                                 ${item.category}
                             </span>
                         </div>
+                        <div class="absolute top-3 right-3 z-10">
+                            <span class="px-3 py-1 rounded-full text-[10px] font-bold bg-emerald-500 text-slate-950 shadow-md">
+                                ${item.match} Match
+                            </span>
+                        </div>
                     </div>
                     <div class="p-5 flex-1 flex flex-col justify-between bg-slate-900">
                         <div>
@@ -653,7 +392,7 @@
                         <div class="flex items-center justify-between pt-3 border-t border-slate-800">
                             <span class="text-xs font-bold text-emerald-400">${item.budget}</span>
                             <button onclick="openModal(${item.id})" aria-label="Explore details for ${item.title}" class="px-3.5 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500 hover:text-slate-950 text-xs font-bold transition-all">
-                                Explore
+                                Destination Details
                             </button>
                         </div>
                     </div>
@@ -665,21 +404,16 @@
         function filterDestinations(category) {
             activeCategoryFilter = category;
             document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.className = "filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-slate-900 text-slate-300 border border-slate-800 hover:bg-slate-800 transition-all";
-                if (btn.textContent.includes(category) || (category === 'All' && btn.textContent.includes('All Vibe'))) {
-                    btn.className = "filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-emerald-500 text-slate-950 transition-all shadow-md shadow-emerald-500/20";
+                btn.className = "filter-btn px-5 py-2.5 rounded-2xl text-xs font-bold bg-slate-900 text-slate-300 border border-slate-800 hover:bg-slate-800 transition-all";
+                if (btn.textContent.includes(category) || (category === 'All' && btn.textContent.includes('All Categories'))) {
+                    btn.className = "filter-btn px-5 py-2.5 rounded-2xl text-xs font-bold bg-emerald-500 text-slate-950 transition-all shadow-md";
                 }
             });
             applySearchAndSort();
         }
 
-        function handleSearch() {
-            applySearchAndSort();
-        }
-
-        function handleSort() {
-            applySearchAndSort();
-        }
+        function handleSearch() { applySearchAndSort(); }
+        function handleSort() { applySearchAndSort(); }
 
         function applySearchAndSort() {
             const query = document.getElementById('destinationSearch').value.toLowerCase().trim();
@@ -716,12 +450,11 @@
             container.innerHTML = '';
 
             let totalBudget = 0;
-
             if (savedDestinations.length === 0) {
                 container.innerHTML = `
                     <div class="text-center py-12 text-slate-500 text-xs">
                         <i class="fa-solid fa-heart-crack text-3xl mb-2" aria-hidden="true"></i>
-                        <p>No saved getaways yet. Swipe or explore to add destinations!</p>
+                        <p>No saved getaways yet. Save destinations to plan your weekend trip!</p>
                     </div>
                 `;
                 document.getElementById('tripBudgetTotal').textContent = '$0 USD';
@@ -739,7 +472,7 @@
                         <p class="text-[10px] text-slate-400">${item.location}</p>
                         <span class="text-[10px] font-bold text-emerald-400">${item.budget}</span>
                     </div>
-                    <button onclick="removeWishlistItem(${item.id})" aria-label="Remove ${item.title} from wishlist" class="text-slate-500 hover:text-rose-500 p-2"><i class="fa-solid fa-trash-can text-xs" aria-hidden="true"></i></button>
+                    <button onclick="removeWishlistItem(${item.id})" aria-label="Remove ${item.title}" class="text-slate-500 hover:text-rose-500 p-2"><i class="fa-solid fa-trash-can text-xs" aria-hidden="true"></i></button>
                 `;
                 container.appendChild(div);
             });
@@ -786,9 +519,7 @@
 
         function applyAiMatch() {
             closeAiWizard();
-            if (selectedAiDestination) {
-                openModal(selectedAiDestination.id);
-            }
+            if (selectedAiDestination) { openModal(selectedAiDestination.id); }
         }
 
         function openModal(id) {
@@ -857,9 +588,9 @@
             const isSaved = savedDestinations.some(d => d.id === activeModalDestination.id);
             const saveBtn = document.getElementById('modalSaveBtn');
             if (isSaved) {
-                saveBtn.innerHTML = `<i class="fa-solid fa-heart mr-2 text-rose-500" aria-hidden="true"></i> Saved in Wishlist`;
+                saveBtn.innerHTML = `<i class="fa-solid fa-heart mr-2 text-rose-500" aria-hidden="true"></i> Saved as Favorite`;
             } else {
-                saveBtn.innerHTML = `<i class="fa-solid fa-heart mr-2 text-slate-500" aria-hidden="true"></i> Save to Wishlist`;
+                saveBtn.innerHTML = `<i class="fa-solid fa-heart mr-2 text-slate-500" aria-hidden="true"></i> Save / Favorite Destination`;
             }
         }
 
