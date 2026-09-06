@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WanderLuxe — Curated Weekend Escapes</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Plus Jakarta Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            500: '#10b981',
+                            600: '#059669',
+                            900: '#064e3b',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-card {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .swipe-card {
+            touch-action: none;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans antialiased min-h-screen selection:bg-emerald-500 selection:text-slate-950">
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-emerald-500 text-slate-950 px-5 py-3 rounded-2xl shadow-2xl font-bold text-xs flex items-center space-x-2">
+        <i class="fa-solid fa-circle-check text-base"></i>
+        <span id="toastMsg">Action successful</span>
+    </div>
+
+    <!-- Header / Navigation -->
+    <header class="sticky top-0 z-40 backdrop-blur-xl border-b border-slate-800/80 bg-slate-950/70">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-300 flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                    <i class="fa-solid fa-compass text-slate-950 text-lg"></i>
+                </div>
+                <div>
+                    <span class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-200 to-emerald-400 bg-clip-text text-transparent">WanderLuxe</span>
+                    <span class="block text-[10px] uppercase tracking-widest font-bold text-emerald-400">Curated Weekend Escapes</span>
+                </div>
+            </div>
+
+            <!-- Mode Switcher -->
+            <div class="flex items-center bg-slate-900 p-1.5 rounded-full border border-slate-800 shadow-inner">
+                <button id="modeSwipeBtn" onclick="switchMode('swipe')" class="px-4 py-2 rounded-full text-xs font-bold transition-all duration-300 bg-emerald-500 text-slate-950 shadow-md">
+                    <i class="fa-solid fa-bolt mr-1.5"></i> Swipe Deck
+                </button>
+                <button id="modeExploreBtn" onclick="switchMode('explore')" class="px-4 py-2 rounded-full text-xs font-bold transition-all duration-300 text-slate-400 hover:text-white">
+                    <i class="fa-solid fa-grid-2 mr-1.5"></i> Explore Grid
+                </button>
+            </div>
+
+            <!-- Actions Right -->
+            <div class="flex items-center space-x-3">
+                <button onclick="openAiWizard()" class="hidden md:flex items-center space-x-2 bg-gradient-to-r from-teal-500/10 to-emerald-500/10 border border-emerald-500/30 px-4 py-2 rounded-full text-xs font-bold text-emerald-400 hover:bg-emerald-500/20 transition-all">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    <span>AI Vibe Finder</span>
+                </button>
+                <button onclick="toggleWishlistDrawer()" class="relative flex items-center space-x-2 bg-slate-900 hover:bg-slate-800 px-4 py-2 rounded-full border border-slate-800 transition-all">
+                    <i class="fa-solid fa-heart text-rose-500"></i>
+                    <span class="text-xs font-bold text-slate-300 hidden sm:inline">Saved</span>
+                    <span id="savedCountBadge" class="w-5 h-5 rounded-full bg-rose-500 text-white text-[10px] font-extrabold flex items-center justify-center">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- VIEW 1: SWIPE DISCOVERY MODE -->
+        <section id="swipeView" class="transition-all duration-500">
+            <div class="text-center max-w-xl mx-auto mb-8">
+                <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-white mb-2">Where will your next 48 hours take you?</h1>
+                <p class="text-slate-400 text-xs sm:text-sm">Swipe right or drag to save your vibe, swipe left to pass.</p>
+            </div>
+
+            <!-- Card Stack Container -->
+            <div class="relative w-full max-w-sm sm:max-w-md mx-auto h-[520px] flex items-center justify-center">
+                <div id="cardStack" class="w-full h-full relative">
+                    <!-- Cards dynamically inserted -->
+                </div>
+            </div>
+
+            <!-- Swipe Action Buttons -->
+            <div class="flex items-center justify-center space-x-6 mt-8">
+                <button onclick="triggerSwipe('left')" class="w-16 h-16 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-rose-500 hover:bg-rose-500 hover:text-white transition-all duration-300 shadow-xl group">
+                    <i class="fa-solid fa-xmark text-2xl group-hover:scale-110 transition-transform"></i>
+                </button>
+                <button onclick="openAiWizard()" class="md:hidden px-5 h-12 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-emerald-400 text-xs font-bold uppercase tracking-wider">
+                    <i class="fa-solid fa-wand-magic-sparkles mr-2"></i> AI Vibe
+                </button>
+                <button onclick="triggerSwipe('right')" class="w-16 h-16 rounded-full bg-emerald-500 flex items-center justify-center text-slate-950 hover:bg-emerald-400 transition-all duration-300 shadow-xl shadow-emerald-500/20 group">
+                    <i class="fa-solid fa-heart text-2xl group-hover:scale-110 transition-transform"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- VIEW 2: EXPLORE GRID MODE -->
+        <section id="exploreView" class="hidden transition-all duration-500">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+                <div>
+                    <h1 class="text-3xl font-extrabold tracking-tight text-white mb-1">Destination Explorer</h1>
+                    <p class="text-slate-400 text-sm">Filter through mood, budget, and travel style.</p>
+                </div>
+                <!-- Filter Pills -->
+                <div id="filterContainer" class="flex flex-wrap gap-2">
+                    <button onclick="filterDestinations('All')" class="filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-emerald-500 text-slate-950 transition-all">All Vibe</button>
+                    <button onclick="filterDestinations('Nature')" class="filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-slate-900 text-slate-300 border border-slate-800 hover:bg-slate-800 transition-all">Nature & Hills</button>
+                    <button onclick="filterDestinations('Coastal')" class="filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-slate-900 text-slate-300 border border-slate-800 hover:bg-slate-800 transition-all">Coastal Breeze</button>
+                    <button onclick="filterDestinations('Culture')" class="filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-slate-900 text-slate-300 border border-slate-800 hover:bg-slate-800 transition-all">Culture & Heritage</button>
+                    <button onclick="filterDestinations('Luxury')" class="filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-slate-900 text-slate-300 border border-slate-800 hover:bg-slate-800 transition-all">Urban Luxury</button>
+                </div>
+            </div>
+
+            <!-- Grid -->
+            <div id="destinationGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Dynamically populated -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- WISHLIST SLIDE-OVER DRAWER -->
+    <div id="wishlistDrawer" class="fixed inset-0 z-50 overflow-hidden hidden">
+        <div class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm transition-opacity" onclick="toggleWishlistDrawer()"></div>
+        <div class="absolute inset-y-0 right-0 max-w-full flex pl-10">
+            <div class="w-screen max-w-md bg-slate-900 border-l border-slate-800 flex flex-col shadow-2xl">
+                <div class="p-6 border-b border-slate-800 flex items-center justify-between">
+                    <h2 class="text-lg font-extrabold text-white flex items-center">
+                        <i class="fa-solid fa-heart text-rose-500 mr-2.5"></i> Saved Escapes (<span id="drawerCount">0</span>)
+                    </h2>
+                    <button onclick="toggleWishlistDrawer()" class="w-9 h-9 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center transition-colors">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <div id="wishlistContainer" class="flex-1 overflow-y-auto p-6 space-y-4">
+                    <!-- Populated via JS -->
+                </div>
+                <div class="p-6 border-t border-slate-800 bg-slate-950/50">
+                    <button onclick="alert('Proceeding to group travel planner check-out!')" class="w-full py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-xs uppercase tracking-wider shadow-lg shadow-emerald-500/20 transition-all">
+                        Plan Weekend Group Trip
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI VIBE FINDER WIZARD MODAL -->
+    <div id="aiWizardModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
+        <div class="bg-slate-900 border border-slate-800 w-full max-w-lg rounded-3xl p-6 sm:p-8 shadow-2xl relative">
+            <button onclick="closeAiWizard()" class="absolute top-6 right-6 text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            <div class="flex items-center space-x-2 text-emerald-400 text-xs font-bold uppercase tracking-widest mb-2">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> <span>AI Travel Assistant</span>
+            </div>
+            <h2 class="text-2xl font-extrabold text-white mb-6">Find your ideal weekend match</h2>
+
+            <div id="wizardStep1" class="space-y-4">
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-400">1. What is your primary travel mood?</label>
+                <div class="grid grid-cols-2 gap-3">
+                    <button onclick="setWizardMood('Nature')" class="wizard-mood p-4 rounded-2xl bg-slate-800 border border-slate-700 text-left hover:border-emerald-500 transition-all font-bold text-sm text-white">🌿 Misty Nature & Hills</button>
+                    <button onclick="setWizardMood('Coastal')" class="wizard-mood p-4 rounded-2xl bg-slate-800 border border-slate-700 text-left hover:border-emerald-500 transition-all font-bold text-sm text-white">🌊 Coastal Beach Vibe</button>
+                    <button onclick="setWizardMood('Culture')" class="wizard-mood p-4 rounded-2xl bg-slate-800 border border-slate-700 text-left hover:border-emerald-500 transition-all font-bold text-sm text-white">🏛️ Culture & Heritage</button>
+                    <button onclick="setWizardMood('Luxury')" class="wizard-mood p-4 rounded-2xl bg-slate-800 border border-slate-700 text-left hover:border-emerald-500 transition-all font-bold text-sm text-white">✨ Urban Luxury & Spa</button>
+                </div>
+            </div>
+
+            <div id="wizardResult" class="hidden text-center py-6">
+                <div class="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-2xl mx-auto mb-4 animate-bounce">
+                    <i class="fa-solid fa-plane-departure"></i>
+                </div>
+                <h3 id="wizardMatchTitle" class="text-xl font-bold text-white mb-2"></h3>
+                <p id="wizardMatchDesc" class="text-slate-400 text-xs mb-6"></p>
+                <button onclick="applyAiMatch()" class="px-6 py-3 rounded-xl bg-emerald-500 text-slate-950 font-bold text-xs uppercase tracking-wider">View Full Itinerary</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Itinerary / Trip Detail Modal -->
+    <div id="detailModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
+        <div id="modalContent" class="bg-slate-900 border border-slate-800 w-full max-w-2xl rounded-3xl overflow-hidden shadow-2xl transform scale-95 transition-transform duration-300 max-h-[90vh] flex flex-col">
+            <div class="relative h-64 sm:h-72 w-full">
+                <img id="modalImg" src="" alt="Destination" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/20 to-transparent"></div>
+                <button onclick="closeModal()" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-slate-900/80 text-white flex items-center justify-center hover:bg-slate-800 transition-colors backdrop-blur-md">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+                <div class="absolute bottom-6 left-6 right-6">
+                    <div id="modalBadge" class="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-500 text-slate-950 mb-2"></div>
+                    <h2 id="modalTitle" class="text-3xl font-extrabold text-white"></h2>
+                    <p id="modalLocation" class="text-slate-300 text-sm flex items-center mt-1"><i class="fa-solid fa-location-dot mr-2 text-emerald-400"></i><span></span></p>
+                </div>
+            </div>
+
+            <div class="p-6 space-y-6 overflow-y-auto hide-scrollbar">
+                <div class="grid grid-cols-3 gap-4 bg-slate-950 p-4 rounded-2xl border border-slate-800">
+                    <div class="text-center">
+                        <span class="block text-[10px] uppercase tracking-wider text-slate-400">Est. Budget</span>
+                        <span id="modalBudget" class="text-sm sm:text-lg font-bold text-white mt-0.5 block"></span>
+                    </div>
+                    <div class="text-center border-x border-slate-800">
+                        <span class="block text-[10px] uppercase tracking-wider text-slate-400">Best Time</span>
+                        <span id="modalTime" class="text-sm sm:text-lg font-bold text-white mt-0.5 block"></span>
+                    </div>
+                    <div class="text-center">
+                        <span class="block text-[10px] uppercase tracking-wider text-slate-400">Vibe Match</span>
+                        <span id="modalMatch" class="text-sm sm:text-lg font-bold text-emerald-400 mt-0.5 block"></span>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">The Experience</h3>
+                    <p id="modalDesc" class="text-slate-300 text-xs sm:text-sm leading-relaxed"></p>
+                </div>
+
+                <div>
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">Suggested 48-Hour Itinerary</h3>
+                    <div id="modalItinerary" class="space-y-3"></div>
+                </div>
+            </div>
+
+            <div class="p-4 bg-slate-950 border-t border-slate-800 flex items-center justify-between">
+                <button onclick="toggleSaveCurrentModal()" id="modalSaveBtn" class="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-200 text-xs font-bold transition-all flex items-center">
+                    <i class="fa-solid fa-heart mr-2 text-rose-500"></i> Save to Wishlist
+                </button>
+                <button onclick="showToast('Weekend booking inquiry simulated successfully!'); closeModal();" class="px-6 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-extrabold uppercase tracking-wider shadow-lg shadow-emerald-500/20 transition-all">
+                    Book Weekend Escape
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        const destinations = [
+            {
+                id: 1,
+                title: "Munnar Mist Valleys",
+                tagline: "Endless rolling green tea plantations and cloud-kissed peaks.",
+                category: "Nature",
+                location: "Kerala, India",
+                image: "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&w=1000&q=80",
+                budget: "$250 - $400",
+                bestTime: "Oct - Mar",
+                match: "98%",
+                description: "Escape the humid city pulse for the crisp mountain air of Munnar. Stay in a heritage estate bungalow, sip single-origin spiced tea, and wake up above the clouds.",
+                itinerary: [
+                    { time: "Sat - 10:00 AM", title: "Arrival & Tea Museum Tour", desc: "Settle into your boutique stay and explore South Indian tea crafting history." },
+                    { time: "Sat - 03:00 PM", title: "Eravikulam National Park", desc: "Spot the endangered Nilgiri Tahr amidst misty grassland ridges." },
+                    { time: "Sun - 06:30 AM", title: "Meesapulimala Sunrise Hike", desc: "Witness golden morning rays break over carpeted emerald hills." }
+                ]
+            },
+            {
+                id: 2,
+                title: "Goa Secret Coves",
+                tagline: "Hidden tide pools, Portuguese colonial villas, and quiet golden sands.",
+                category: "Coastal",
+                location: "Goa, India",
+                image: "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=1000&q=80",
+                budget: "$300 - $550",
+                bestTime: "Nov - Feb",
+                match: "95%",
+                description: "Skip the mainstream parties and discover South Goa's sleepy Latin quarters, sea-facing boutique cafes, and serene secluded beaches.",
+                itinerary: [
+                    { time: "Sat - 11:00 AM", title: "Fontainhas Heritage Walk", desc: "Stroll through pastel-colored Portuguese alleyways and artisan bakeries." },
+                    { time: "Sat - 04:30 PM", title: "Sunset at Butterfly Beach", desc: "Take a traditional canoe ride to a hidden horseshoe cove." },
+                    { time: "Sun - 09:00 AM", title: "Coastal Seafood Brunch", desc: "Feast on Goan prawn curry with live acoustic music by the waves." }
+                ]
+            },
+            {
+                id: 3,
+                title: "Udaipur Royal Lakeside",
+                tagline: "Palaces mirrored in calm waters and romantic rooftop dining.",
+                category: "Culture",
+                location: "Rajasthan, India",
+                image: "https://images.unsplash.com/photo-1615836245337-f5b9b2303fbd?auto=format&fit=crop&w=1000&q=80",
+                budget: "$350 - $600",
+                bestTime: "Sep - Mar",
+                match: "92%",
+                description: "Live like modern royalty in the Venice of the East. Explore marble palaces, take sunset boat cruises on Lake Pichola, and shop traditional handicrafts.",
+                itinerary: [
+                    { time: "Sat - 12:00 PM", title: "City Palace Exploration", desc: "Discover royal courtyards, mirror-glass ballrooms, and panoramic lake views." },
+                    { time: "Sat - 05:30 PM", title: "Lake Pichola Sunset Boat Ride", desc: "Sail past the iconic Jag Mandir palace as twilight paints the sky amber." },
+                    { time: "Sun - 10:00 AM", title: "Artisan Craft Workshop", desc: "Learn traditional miniature painting from master local artisans." }
+                ]
+            },
+            {
+                id: 4,
+                title: "Coorg Coffee Highlands",
+                tagline: "Aromatic spice plantations, cascading waterfalls, and cozy cabin stays.",
+                category: "Nature",
+                location: "Karnataka, India",
+                image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1000&q=80",
+                budget: "$200 - $350",
+                bestTime: "All Year",
+                match: "90%",
+                description: "Unwind surrounded by lush green coffee estates and towering rosewood trees. Enjoy homestyle Kodava cuisine around an evening bonfire.",
+                itinerary: [
+                    { time: "Sat - 10:30 AM", title: "Coffee Estate Walk", desc: "Guided tour through Robusta and Arabica plantations with fresh brew tasting." },
+                    { time: "Sat - 03:30 PM", title: "Abbey Falls Trek", desc: "Walk through private spice trails leading to gushing jungle waterfalls." },
+                    { time: "Sun - 11:00 AM", title: "Tibetan Monastery Visit", desc: "Experience tranquil prayer chants and golden architecture at Namdroling." }
+                ]
+            },
+            {
+                id: 5,
+                title: "Pondicherry French Quarter",
+                tagline: "Bougainvillea-draped villas, bohemian boutiques, and seaside promenades.",
+                category: "Coastal",
+                location: "Puducherry, India",
+                image: "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&w=1000&q=80",
+                budget: "$220 - $380",
+                bestTime: "Oct - Mar",
+                match: "89%",
+                description: "Experience a unique blend of French colonial charm and South Indian soul. Rent a bicycle to explore quiet avenues and artisan cafes.",
+                itinerary: [
+                    { time: "Sat - 09:00 AM", title: "Promenade Seaside Stroll", desc: "Enjoy traffic-free morning breezes along the Bay of Bengal coastline." },
+                    { time: "Sat - 02:00 PM", title: "Auroville Meditation Dome", desc: "Visit the futuristic golden spherical Matrimandir for silent reflection." },
+                    { time: "Sun - 10:00 AM", title: "French Bakery Breakfast", desc: "Savor authentic croissants and cafe au lait in a shaded courtyard." }
+                ]
+            },
+            {
+                id: 6,
+                title: "Kyoto Zen Gardens",
+                tagline: "Timeless wooden temples, bamboo groves, and traditional tea houses.",
+                category: "Culture",
+                location: "Kyoto, Japan",
+                image: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=1000&q=80",
+                budget: "$600 - $900",
+                bestTime: "Mar - May",
+                match: "97%",
+                description: "Immerse your senses in pristine minimalist aesthetics. Walk through towering Arashiyama bamboo stalks and historic Zen rock gardens.",
+                itinerary: [
+                    { time: "Sat - 08:00 AM", title: "Arashiyama Bamboo Grove", desc: "Early morning serenity surrounded by whispering towering green stalks." },
+                    { time: "Sat - 02:00 PM", title: "Traditional Matcha Ceremony", desc: "Learn whisking techniques in a 300-year-old wooden machiya townhouse." },
+                    { time: "Sun - 09:00 AM", title: "Fushimi Inari Shrine Hike", desc: "Wander beneath thousands of vermilion torii gates winding up the mountain." }
+                ]
+            }
+        ];
+
+        let currentCardIndex = 0;
+        let savedDestinations = JSON.parse(localStorage.getItem('wanderluxe_saved')) || [];
+        let activeModalDestination = null;
+        let selectedAiDestination = null;
+
+        function initApp() {
+            updateSavedCount();
+            renderSwipeCard();
+            renderExploreGrid(destinations);
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMsg').textContent = msg;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 2500);
+        }
+
+        function switchMode(mode) {
+            const swipeView = document.getElementById('swipeView');
+            const exploreView = document.getElementById('exploreView');
+            const swipeBtn = document.getElementById('modeSwipeBtn');
+            const exploreBtn = document.getElementById('modeExploreBtn');
+
+            if (mode === 'swipe') {
+                swipeView.classList.remove('hidden');
+                exploreView.classList.add('hidden');
+                swipeBtn.className = "px-4 py-2 rounded-full text-xs font-bold transition-all duration-300 bg-emerald-500 text-slate-950 shadow-md";
+                exploreBtn.className = "px-4 py-2 rounded-full text-xs font-bold transition-all duration-300 text-slate-400 hover:text-white";
+            } else {
+                swipeView.classList.add('hidden');
+                exploreView.classList.remove('hidden');
+                exploreBtn.className = "px-4 py-2 rounded-full text-xs font-bold transition-all duration-300 bg-emerald-500 text-slate-950 shadow-md";
+                swipeBtn.className = "px-4 py-2 rounded-full text-xs font-bold transition-all duration-300 text-slate-400 hover:text-white";
+            }
+        }
+
+        // SWIPE CARD STACK WITH INTERACTIVE DRAG PHYSICS
+        function renderSwipeCard() {
+            const stack = document.getElementById('cardStack');
+            stack.innerHTML = '';
+
+            if (currentCardIndex >= destinations.length) {
+                stack.innerHTML = `
+                    <div class="w-full h-full rounded-3xl glass-card flex flex-col items-center justify-center p-8 text-center border border-slate-800">
+                        <div class="w-16 h-16 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-2xl mb-4">
+                            <i class="fa-solid fa-check"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">Deck Fully Explored!</h3>
+                        <p class="text-slate-400 text-xs mb-6">Review your saved trips or restart your discovery session.</p>
+                        <button onclick="resetSwipeDeck()" class="px-6 py-3 rounded-xl bg-emerald-500 text-slate-950 font-bold text-xs uppercase tracking-wider hover:bg-emerald-400 transition-all">
+                            Restart Deck
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            const item = destinations[currentCardIndex];
+            const card = document.createElement('div');
+            card.className = "swipe-card absolute inset-0 w-full h-full rounded-3xl overflow-hidden glass-card shadow-2xl border border-slate-800 flex flex-col cursor-grab active:cursor-grabbing";
+            card.innerHTML = `
+                <div class="relative w-full h-[65%] pointer-events-none">
+                    <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
+                    <div class="absolute top-4 left-4">
+                        <span class="px-3 py-1 rounded-full text-xs font-bold bg-slate-950/80 backdrop-blur-md text-emerald-400 border border-slate-800">
+                            ${item.category}
+                        </span>
+                    </div>
+                    <div class="absolute top-4 right-4">
+                        <span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-500 text-slate-950">
+                            ${item.match} Match
+                        </span>
+                    </div>
+                </div>
+                <div class="p-6 flex-1 flex flex-col justify-between bg-slate-900 pointer-events-auto">
+                    <div>
+                        <h3 class="text-2xl font-extrabold text-white mb-1">${item.title}</h3>
+                        <p class="text-slate-400 text-xs flex items-center mb-3"><i class="fa-solid fa-location-dot mr-1.5 text-emerald-400"></i> ${item.location}</p>
+                        <p class="text-slate-300 text-xs line-clamp-2">${item.tagline}</p>
+                    </div>
+                    <div class="flex items-center justify-between pt-4 border-t border-slate-800">
+                        <div>
+                            <span class="block text-[10px] uppercase tracking-wider text-slate-400">Budget</span>
+                            <span class="text-sm font-bold text-white">${item.budget}</span>
+                        </div>
+                        <button onclick="openModal(${item.id})" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold transition-all">
+                            View Itinerary <i class="fa-solid fa-arrow-right ml-1 text-emerald-400"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            // Attach drag physics
+            initCardDrag(card);
+            stack.appendChild(card);
+        }
+
+        function initCardDrag(card) {
+            let startX = 0, currentX = 0, isDragging = false;
+
+            const onStart = (x) => {
+                isDragging = true;
+                startX = x;
+                card.style.transition = 'none';
+            };
+
+            const onMove = (x) => {
+                if (!isDragging) return;
+                currentX = x - startX;
+                const rotate = currentX * 0.05;
+                card.style.transform = `translateX(${currentX}px) rotate(${rotate}deg)`;
+            };
+
+            const onEnd = () => {
+                if (!isDragging) return;
+                isDragging = false;
+                card.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+
+                if (currentX > 120) {
+                    card.style.transform = `translateX(500px) rotate(30deg)`;
+                    setTimeout(() => handleSwipe('right'), 200);
+                } else if (currentX < -120) {
+                    card.style.transform = `translateX(-500px) rotate(-30deg)`;
+                    setTimeout(() => handleSwipe('left'), 200);
+                } else {
+                    card.style.transform = 'translateX(0px) rotate(0deg)';
+                }
+            };
+
+            card.addEventListener('mousedown', (e) => onStart(e.clientX));
+            window.addEventListener('mousemove', (e) => onMove(e.clientX));
+            window.addEventListener('mouseup', onEnd);
+
+            card.addEventListener('touchstart', (e) => onStart(e.touches[0].clientX));
+            window.addEventListener('touchmove', (e) => onMove(e.touches[0].clientX));
+            window.addEventListener('touchend', onEnd);
+        }
+
+        function triggerSwipe(direction) {
+            const card = document.querySelector('.swipe-card');
+            if (!card) return;
+            card.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+            if (direction === 'right') {
+                card.style.transform = `translateX(500px) rotate(30deg)`;
+            } else {
+                card.style.transform = `translateX(-500px) rotate(-30deg)`;
+            }
+            setTimeout(() => handleSwipe(direction), 200);
+        }
+
+        function handleSwipe(direction) {
+            if (currentCardIndex >= destinations.length) return;
+            const item = destinations[currentCardIndex];
+
+            if (direction === 'right') {
+                if (!savedDestinations.some(d => d.id === item.id)) {
+                    savedDestinations.push(item);
+                    localStorage.setItem('wanderluxe_saved', JSON.stringify(savedDestinations));
+                    updateSavedCount();
+                    showToast(`Saved "${item.title}" to wishlist!`);
+                }
+            }
+            currentCardIndex++;
+            renderSwipeCard();
+        }
+
+        function resetSwipeDeck() {
+            currentCardIndex = 0;
+            renderSwipeCard();
+        }
+
+        // EXPLORE GRID
+        function renderExploreGrid(data) {
+            const grid = document.getElementById('destinationGrid');
+            grid.innerHTML = '';
+
+            data.forEach(item => {
+                const isSaved = savedDestinations.some(d => d.id === item.id);
+                const card = document.createElement('div');
+                card.className = "rounded-2xl overflow-hidden glass-card border border-slate-800 hover:border-emerald-500/50 transition-all duration-300 group flex flex-col";
+                card.innerHTML = `
+                    <div class="relative h-48 w-full overflow-hidden">
+                        <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute top-3 left-3">
+                            <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-slate-950/80 backdrop-blur-md text-emerald-400">
+                                ${item.category}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="p-5 flex-1 flex flex-col justify-between bg-slate-900">
+                        <div>
+                            <h3 class="text-lg font-bold text-white mb-1">${item.title}</h3>
+                            <p class="text-slate-400 text-xs mb-3 flex items-center"><i class="fa-solid fa-location-dot mr-1.5 text-emerald-400"></i> ${item.location}</p>
+                            <p class="text-slate-300 text-xs line-clamp-2 mb-4">${item.tagline}</p>
+                        </div>
+                        <div class="flex items-center justify-between pt-3 border-t border-slate-800">
+                            <span class="text-xs font-bold text-emerald-400">${item.budget}</span>
+                            <button onclick="openModal(${item.id})" class="px-3.5 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500 hover:text-slate-950 text-xs font-bold transition-all">
+                                Explore
+                            </button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filterDestinations(category) {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.className = "filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-slate-900 text-slate-300 border border-slate-800 hover:bg-slate-800 transition-all";
+                if (btn.textContent.includes(category) || (category === 'All' && btn.textContent.includes('All Vibe'))) {
+                    btn.className = "filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-emerald-500 text-slate-950 transition-all";
+                }
+            });
+
+            if (category === 'All') {
+                renderExploreGrid(destinations);
+            } else {
+                const filtered = destinations.filter(d => d.category === category);
+                renderExploreGrid(filtered);
+            }
+        }
+
+        // WISHLIST DRAWER
+        function toggleWishlistDrawer() {
+            const drawer = document.getElementById('wishlistDrawer');
+            drawer.classList.toggle('hidden');
+            renderWishlistItems();
+        }
+
+        function renderWishlistItems() {
+            const container = document.getElementById('wishlistContainer');
+            document.getElementById('drawerCount').textContent = savedDestinations.length;
+            container.innerHTML = '';
+
+            if (savedDestinations.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12 text-slate-500 text-xs">
+                        <i class="fa-solid fa-heart-crack text-3xl mb-2"></i>
+                        <p>No saved getaways yet. Swipe or explore to add destinations!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            savedDestinations.forEach(item => {
+                const div = document.createElement('div');
+                div.className = "flex items-center space-x-3 bg-slate-950 p-3 rounded-2xl border border-slate-800";
+                div.innerHTML = `
+                    <img src="${item.image}" class="w-16 h-16 rounded-xl object-cover">
+                    <div class="flex-1 min-w-0">
+                        <h4 class="text-xs font-bold text-white truncate">${item.title}</h4>
+                        <p class="text-[10px] text-slate-400">${item.location}</p>
+                        <span class="text-[10px] font-bold text-emerald-400">${item.budget}</span>
+                    </div>
+                    <button onclick="removeWishlistItem(${item.id})" class="text-slate-500 hover:text-rose-500 p-2"><i class="fa-solid fa-trash-can text-xs"></i></button>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function removeWishlistItem(id) {
+            savedDestinations = savedDestinations.filter(d => d.id !== id);
+            localStorage.setItem('wanderluxe_saved', JSON.stringify(savedDestinations));
+            updateSavedCount();
+            renderWishlistItems();
+            showToast("Removed from wishlist.");
+        }
+
+        function updateSavedCount() {
+            document.getElementById('savedCountBadge').textContent = savedDestinations.length;
+        }
+
+        // AI VIBE WIZARD
+        function openAiWizard() {
+            const modal = document.getElementById('aiWizardModal');
+            document.getElementById('wizardStep1').classList.remove('hidden');
+            document.getElementById('wizardResult').classList.add('hidden');
+            modal.classList.remove('hidden');
+            setTimeout(() => modal.classList.remove('opacity-0'), 10);
+        }
+
+        function closeAiWizard() {
+            const modal = document.getElementById('aiWizardModal');
+            modal.classList.add('opacity-0');
+            setTimeout(() => modal.classList.add('hidden'), 300);
+        }
+
+        function setWizardMood(mood) {
+            const match = destinations.find(d => d.category === mood) || destinations[0];
+            selectedAiDestination = match;
+
+            document.getElementById('wizardStep1').classList.add('hidden');
+            const resultDiv = document.getElementById('wizardResult');
+            resultDiv.classList.remove('hidden');
+            document.getElementById('wizardMatchTitle').textContent = match.title;
+            document.getElementById('wizardMatchDesc').textContent = match.tagline;
+        }
+
+        function applyAiMatch() {
+            closeAiWizard();
+            if (selectedAiDestination) {
+                openModal(selectedAiDestination.id);
+            }
+        }
+
+        // MODAL ITINERARY
+        function openModal(id) {
+            const item = destinations.find(d => d.id === id);
+            if (!item) return;
+            activeModalDestination = item;
+
+            document.getElementById('modalImg').src = item.image;
+            document.getElementById('modalBadge').textContent = item.category;
+            document.getElementById('modalTitle').textContent = item.title;
+            document.getElementById('modalLocation').querySelector('span').textContent = item.location;
+            document.getElementById('modalBudget').textContent = item.budget;
+            document.getElementById('modalTime').textContent = item.bestTime;
+            document.getElementById('modalMatch').textContent = item.match;
+            document.getElementById('modalDesc').textContent = item.description;
+
+            const itineraryContainer = document.getElementById('modalItinerary');
+            itineraryContainer.innerHTML = '';
+            item.itinerary.forEach(it => {
+                const step = document.createElement('div');
+                step.className = "p-3 rounded-xl bg-slate-950 border border-slate-800 flex flex-col";
+                step.innerHTML = `
+                    <span class="text-[10px] font-extrabold uppercase tracking-widest text-emerald-400 mb-1">${it.time}</span>
+                    <h4 class="text-xs font-bold text-white mb-0.5">${it.title}</h4>
+                    <p class="text-slate-300 text-xs">${it.desc}</p>
+                `;
+                itineraryContainer.appendChild(step);
+            });
+
+            updateModalSaveButtonState();
+
+            const modal = document.getElementById('detailModal');
+            const modalContent = document.getElementById('modalContent');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modalContent.classList.remove('scale-95');
+            }, 10);
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('detailModal');
+            const modalContent = document.getElementById('modalContent');
+            modal.classList.add('opacity-0');
+            modalContent.classList.add('scale-95');
+            setTimeout(() => modal.classList.add('hidden'), 300);
+        }
+
+        function toggleSaveCurrentModal() {
+            if (!activeModalDestination) return;
+            const index = savedDestinations.findIndex(d => d.id === activeModalDestination.id);
+            if (index > -1) {
+                savedDestinations.splice(index, 1);
+                showToast("Removed from wishlist.");
+            } else {
+                savedDestinations.push(activeModalDestination);
+                showToast(`Saved "${activeModalDestination.title}"!`);
+            }
+            localStorage.setItem('wanderluxe_saved', JSON.stringify(savedDestinations));
+            updateSavedCount();
+            updateModalSaveButtonState();
+        }
+
+        function updateModalSaveButtonState() {
+            if (!activeModalDestination) return;
+            const isSaved = savedDestinations.some(d => d.id === activeModalDestination.id);
+            const saveBtn = document.getElementById('modalSaveBtn');
+            if (isSaved) {
+                saveBtn.innerHTML = `<i class="fa-solid fa-heart mr-2 text-rose-500"></i> Saved in Wishlist`;
+            } else {
+                saveBtn.innerHTML = `<i class="fa-solid fa-heart mr-2 text-slate-500"></i> Save to Wishlist`;
+            }
+        }
+
+        window.onload = initApp;
+    </script>
+</body>
+</html>
