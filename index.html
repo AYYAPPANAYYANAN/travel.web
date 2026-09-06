@@ -50,15 +50,15 @@
 </head>
 <body class="bg-slate-950 text-slate-100 font-sans antialiased min-h-screen selection:bg-emerald-500 selection:text-slate-950">
 
-    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-emerald-500 text-slate-950 px-5 py-3 rounded-2xl shadow-2xl font-bold text-xs flex items-center space-x-2">
-        <i class="fa-solid fa-circle-check text-base"></i>
+    <div id="toast" role="status" aria-live="polite" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-emerald-500 text-slate-950 px-5 py-3 rounded-2xl shadow-2xl font-bold text-xs flex items-center space-x-2">
+        <i class="fa-solid fa-circle-check text-base" aria-hidden="true"></i>
         <span id="toastMsg">Action successful</span>
     </div>
 
     <header class="sticky top-0 z-40 backdrop-blur-xl border-b border-slate-800/80 bg-slate-950/80">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
             <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-300 flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-300 flex items-center justify-center shadow-lg shadow-emerald-500/20" aria-hidden="true">
                     <i class="fa-solid fa-compass text-slate-950 text-lg"></i>
                 </div>
                 <div>
@@ -67,22 +67,22 @@
                 </div>
             </div>
 
-            <div class="flex items-center bg-slate-900 p-1.5 rounded-full border border-slate-800 shadow-inner">
-                <button id="modeSwipeBtn" onclick="switchMode('swipe')" class="px-4 py-2 rounded-full text-xs font-bold transition-all duration-300 bg-emerald-500 text-slate-950 shadow-md">
-                    <i class="fa-solid fa-bolt mr-1.5"></i> Swipe Deck
+            <nav aria-label="Main Navigation" class="flex items-center bg-slate-900 p-1.5 rounded-full border border-slate-800 shadow-inner">
+                <button id="modeSwipeBtn" onclick="switchMode('swipe')" aria-label="Switch to Swipe Discovery Mode" class="px-4 py-2 rounded-full text-xs font-bold transition-all duration-300 bg-emerald-500 text-slate-950 shadow-md">
+                    <i class="fa-solid fa-bolt mr-1.5" aria-hidden="true"></i> Swipe Deck
                 </button>
-                <button id="modeExploreBtn" onclick="switchMode('explore')" class="px-4 py-2 rounded-full text-xs font-bold transition-all duration-300 text-slate-400 hover:text-white">
-                    <i class="fa-solid fa-grid-2 mr-1.5"></i> Explore Grid
+                <button id="modeExploreBtn" onclick="switchMode('explore')" aria-label="Switch to Explore Grid Mode" class="px-4 py-2 rounded-full text-xs font-bold transition-all duration-300 text-slate-400 hover:text-white">
+                    <i class="fa-solid fa-grid-2 mr-1.5" aria-hidden="true"></i> Explore Grid
                 </button>
-            </div>
+            </nav>
 
             <div class="flex items-center space-x-3">
-                <button onclick="openAiWizard()" class="hidden md:flex items-center space-x-2 bg-gradient-to-r from-teal-500/10 to-emerald-500/10 border border-emerald-500/30 px-4 py-2 rounded-full text-xs font-bold text-emerald-400 hover:bg-emerald-500/20 transition-all">
-                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                <button onclick="openAiWizard()" aria-label="Open AI Vibe Finder" class="hidden md:flex items-center space-x-2 bg-gradient-to-r from-teal-500/10 to-emerald-500/10 border border-emerald-500/30 px-4 py-2 rounded-full text-xs font-bold text-emerald-400 hover:bg-emerald-500/20 transition-all">
+                    <i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i>
                     <span>AI Vibe Finder</span>
                 </button>
-                <button onclick="toggleWishlistDrawer()" class="relative flex items-center space-x-2 bg-slate-900 hover:bg-slate-800 px-4 py-2 rounded-full border border-slate-800 transition-all">
-                    <i class="fa-solid fa-heart text-rose-500"></i>
+                <button onclick="toggleWishlistDrawer()" aria-label="Open Wishlist Drawer" class="relative flex items-center space-x-2 bg-slate-900 hover:bg-slate-800 px-4 py-2 rounded-full border border-slate-800 transition-all">
+                    <i class="fa-solid fa-heart text-rose-500" aria-hidden="true"></i>
                     <span class="text-xs font-bold text-slate-300 hidden sm:inline">Saved</span>
                     <span id="savedCountBadge" class="w-5 h-5 rounded-full bg-rose-500 text-white text-[10px] font-extrabold flex items-center justify-center">0</span>
                 </button>
@@ -92,42 +92,42 @@
 
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
-        <section id="swipeView" class="transition-all duration-500">
+        <section id="swipeView" aria-labelledby="swipeHeading" class="transition-all duration-500">
             <div class="text-center max-w-xl mx-auto mb-8">
-                <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-white mb-2">Where will your next 48 hours take you?</h1>
+                <h1 id="swipeHeading" class="text-3xl sm:text-4xl font-extrabold tracking-tight text-white mb-2">Where will your next 48 hours take you?</h1>
                 <p class="text-slate-400 text-xs sm:text-sm">Swipe right or drag to save your vibe, swipe left to pass.</p>
             </div>
 
             <div class="relative w-full max-w-sm sm:max-w-md mx-auto h-[540px] flex items-center justify-center">
-                <div id="cardStack" class="w-full h-full relative">
+                <div id="cardStack" class="w-full h-full relative" aria-label="Destination Discovery Card Stack">
                     </div>
             </div>
 
             <div class="flex items-center justify-center space-x-6 mt-8">
-                <button onclick="triggerSwipe('left')" class="w-16 h-16 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-rose-500 hover:bg-rose-500 hover:text-white transition-all duration-300 shadow-xl group">
-                    <i class="fa-solid fa-xmark text-2xl group-hover:scale-110 transition-transform"></i>
+                <button onclick="triggerSwipe('left')" aria-label="Pass current destination" class="w-16 h-16 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-rose-500 hover:bg-rose-500 hover:text-white transition-all duration-300 shadow-xl group">
+                    <i class="fa-solid fa-xmark text-2xl group-hover:scale-110 transition-transform" aria-hidden="true"></i>
                 </button>
-                <button onclick="openAiWizard()" class="md:hidden px-5 h-12 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-emerald-400 text-xs font-bold uppercase tracking-wider">
-                    <i class="fa-solid fa-wand-magic-sparkles mr-2"></i> AI Vibe
+                <button onclick="openAiWizard()" aria-label="Open AI Vibe Wizard" class="md:hidden px-5 h-12 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-emerald-400 text-xs font-bold uppercase tracking-wider">
+                    <i class="fa-solid fa-wand-magic-sparkles mr-2" aria-hidden="true"></i> AI Vibe
                 </button>
-                <button onclick="triggerSwipe('right')" class="w-16 h-16 rounded-full bg-emerald-500 flex items-center justify-center text-slate-950 hover:bg-emerald-400 transition-all duration-300 shadow-xl shadow-emerald-500/20 group">
-                    <i class="fa-solid fa-heart text-2xl group-hover:scale-110 transition-transform"></i>
+                <button onclick="triggerSwipe('right')" aria-label="Save current destination to wishlist" class="w-16 h-16 rounded-full bg-emerald-500 flex items-center justify-center text-slate-950 hover:bg-emerald-400 transition-all duration-300 shadow-xl shadow-emerald-500/20 group">
+                    <i class="fa-solid fa-heart text-2xl group-hover:scale-110 transition-transform" aria-hidden="true"></i>
                 </button>
             </div>
         </section>
 
-        <section id="exploreView" class="hidden transition-all duration-500">
+        <section id="exploreView" aria-labelledby="exploreHeading" class="hidden transition-all duration-500">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
                 <div>
-                    <h1 class="text-3xl font-extrabold tracking-tight text-white mb-1">Destination Explorer</h1>
+                    <h1 id="exploreHeading" class="text-3xl font-extrabold tracking-tight text-white mb-1">Destination Explorer</h1>
                     <p class="text-slate-400 text-sm">Filter through mood, budget, and travel style.</p>
                 </div>
-                <div id="filterContainer" class="flex flex-wrap gap-2">
-                    <button onclick="filterDestinations('All')" class="filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-emerald-500 text-slate-950 transition-all shadow-md shadow-emerald-500/20">All Vibe</button>
-                    <button onclick="filterDestinations('Nature')" class="filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-slate-900 text-slate-300 border border-slate-800 hover:bg-slate-800 transition-all">Nature & Hills</button>
-                    <button onclick="filterDestinations('Coastal')" class="filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-slate-900 text-slate-300 border border-slate-800 hover:bg-slate-800 transition-all">Coastal Breeze</button>
-                    <button onclick="filterDestinations('Culture')" class="filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-slate-900 text-slate-300 border border-slate-800 hover:bg-slate-800 transition-all">Culture & Heritage</button>
-                    <button onclick="filterDestinations('Luxury')" class="filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-slate-900 text-slate-300 border border-slate-800 hover:bg-slate-800 transition-all">Urban Luxury</button>
+                <div id="filterContainer" role="toolbar" aria-label="Destination Filters" class="flex flex-wrap gap-2">
+                    <button onclick="filterDestinations('All')" aria-label="Show all destinations" class="filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-emerald-500 text-slate-950 transition-all shadow-md shadow-emerald-500/20">All Vibe</button>
+                    <button onclick="filterDestinations('Nature')" aria-label="Filter by Nature and Hills" class="filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-slate-900 text-slate-300 border border-slate-800 hover:bg-slate-800 transition-all">Nature & Hills</button>
+                    <button onclick="filterDestinations('Coastal')" aria-label="Filter by Coastal Breeze" class="filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-slate-900 text-slate-300 border border-slate-800 hover:bg-slate-800 transition-all">Coastal Breeze</button>
+                    <button onclick="filterDestinations('Culture')" aria-label="Filter by Culture and Heritage" class="filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-slate-900 text-slate-300 border border-slate-800 hover:bg-slate-800 transition-all">Culture & Heritage</button>
+                    <button onclick="filterDestinations('Luxury')" aria-label="Filter by Urban Luxury" class="filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-slate-900 text-slate-300 border border-slate-800 hover:bg-slate-800 transition-all">Urban Luxury</button>
                 </div>
             </div>
 
@@ -137,16 +137,16 @@
 
     </main>
 
-    <div id="wishlistDrawer" class="fixed inset-0 z-50 overflow-hidden hidden">
-        <div class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm transition-opacity" onclick="toggleWishlistDrawer()"></div>
+    <div id="wishlistDrawer" role="dialog" aria-modal="true" aria-label="Saved Escapes Wishlist" class="fixed inset-0 z-50 overflow-hidden hidden">
+        <div class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm transition-opacity" onclick="toggleWishlistDrawer()" aria-hidden="true"></div>
         <div class="absolute inset-y-0 right-0 max-w-full flex pl-10">
             <div class="w-screen max-w-md bg-slate-900 border-l border-slate-800 flex flex-col shadow-2xl">
                 <div class="p-6 border-b border-slate-800 flex items-center justify-between">
                     <h2 class="text-lg font-extrabold text-white flex items-center">
-                        <i class="fa-solid fa-heart text-rose-500 mr-2.5"></i> Saved Escapes (<span id="drawerCount">0</span>)
+                        <i class="fa-solid fa-heart text-rose-500 mr-2.5" aria-hidden="true"></i> Saved Escapes (<span id="drawerCount">0</span>)
                     </h2>
-                    <button onclick="toggleWishlistDrawer()" class="w-9 h-9 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center transition-colors">
-                        <i class="fa-solid fa-xmark"></i>
+                    <button onclick="toggleWishlistDrawer()" aria-label="Close wishlist drawer" class="w-9 h-9 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center transition-colors">
+                        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
                     </button>
                 </div>
                 <div id="wishlistContainer" class="flex-1 overflow-y-auto p-6 space-y-4">
@@ -160,11 +160,11 @@
         </div>
     </div>
 
-    <div id="aiWizardModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
+    <div id="aiWizardModal" role="dialog" aria-modal="true" aria-label="AI Vibe Finder Assistant" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
         <div class="bg-slate-900 border border-slate-800 w-full max-w-lg rounded-3xl p-6 sm:p-8 shadow-2xl relative">
-            <button onclick="closeAiWizard()" class="absolute top-6 right-6 text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            <button onclick="closeAiWizard()" aria-label="Close AI wizard" class="absolute top-6 right-6 text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg" aria-hidden="true"></i></button>
             <div class="flex items-center space-x-2 text-emerald-400 text-xs font-bold uppercase tracking-widest mb-2">
-                <i class="fa-solid fa-wand-magic-sparkles"></i> <span>AI Travel Assistant</span>
+                <i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i> <span>AI Travel Assistant</span>
             </div>
             <h2 class="text-2xl font-extrabold text-white mb-6">Find your ideal weekend match</h2>
 
@@ -180,7 +180,7 @@
 
             <div id="wizardResult" class="hidden text-center py-6">
                 <div class="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-2xl mx-auto mb-4 animate-bounce">
-                    <i class="fa-solid fa-plane-departure"></i>
+                    <i class="fa-solid fa-plane-departure" aria-hidden="true"></i>
                 </div>
                 <h3 id="wizardMatchTitle" class="text-xl font-bold text-white mb-2"></h3>
                 <p id="wizardMatchDesc" class="text-slate-400 text-xs mb-6"></p>
@@ -189,18 +189,18 @@
         </div>
     </div>
 
-    <div id="detailModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
+    <div id="detailModal" role="dialog" aria-modal="true" aria-label="Destination Details and Itinerary" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
         <div id="modalContent" class="bg-slate-900 border border-slate-800 w-full max-w-2xl rounded-3xl overflow-hidden shadow-2xl transform scale-95 transition-transform duration-300 max-h-[90vh] flex flex-col">
             <div class="relative h-64 sm:h-72 w-full">
-                <img id="modalImg" src="" alt="Destination" class="w-full h-full object-cover">
-                <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/20 to-transparent"></div>
-                <button onclick="closeModal()" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-slate-900/80 text-white flex items-center justify-center hover:bg-slate-800 transition-colors backdrop-blur-md">
-                    <i class="fa-solid fa-xmark text-lg"></i>
+                <img id="modalImg" src="" alt="Destination Feature View" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/20 to-transparent" aria-hidden="true"></div>
+                <button onclick="closeModal()" aria-label="Close details modal" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-slate-900/80 text-white flex items-center justify-center hover:bg-slate-800 transition-colors backdrop-blur-md">
+                    <i class="fa-solid fa-xmark text-lg" aria-hidden="true"></i>
                 </button>
                 <div class="absolute bottom-6 left-6 right-6">
                     <div id="modalBadge" class="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-500 text-slate-950 mb-2"></div>
                     <h2 id="modalTitle" class="text-3xl font-extrabold text-white"></h2>
-                    <p id="modalLocation" class="text-slate-300 text-sm flex items-center mt-1"><i class="fa-solid fa-location-dot mr-2 text-emerald-400"></i><span></span></p>
+                    <p id="modalLocation" class="text-slate-300 text-sm flex items-center mt-1"><i class="fa-solid fa-location-dot mr-2 text-emerald-400" aria-hidden="true"></i><span></span></p>
                 </div>
             </div>
 
@@ -232,8 +232,8 @@
             </div>
 
             <div class="p-4 bg-slate-950 border-t border-slate-800 flex items-center justify-between">
-                <button onclick="toggleSaveCurrentModal()" id="modalSaveBtn" class="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-200 text-xs font-bold transition-all flex items-center">
-                    <i class="fa-solid fa-heart mr-2 text-rose-500"></i> Save to Wishlist
+                <button onclick="toggleSaveCurrentModal()" id="modalSaveBtn" aria-label="Save or remove destination from wishlist" class="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-200 text-xs font-bold transition-all flex items-center">
+                    <i class="fa-solid fa-heart mr-2 text-rose-500" aria-hidden="true"></i> Save to Wishlist
                 </button>
                 <button onclick="showToast('Weekend booking inquiry simulated successfully!'); closeModal();" class="px-6 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-extrabold uppercase tracking-wider shadow-lg shadow-emerald-500/20 transition-all">
                     Book Weekend Escape
@@ -357,6 +357,16 @@
             updateSavedCount();
             renderSwipeCard();
             renderExploreGrid(destinations);
+
+            // Global Keyboard listener for a11y ESC key closing
+            window.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeModal();
+                    closeAiWizard();
+                    const drawer = document.getElementById('wishlistDrawer');
+                    if (!drawer.classList.contains('hidden')) toggleWishlistDrawer();
+                }
+            });
         }
 
         function showToast(msg) {
@@ -387,7 +397,6 @@
             }
         }
 
-        // SWIPE CARD STACK WITH INTERACTIVE DRAG PHYSICS
         function renderSwipeCard() {
             const stack = document.getElementById('cardStack');
             stack.innerHTML = '';
@@ -395,7 +404,7 @@
             if (currentCardIndex >= destinations.length) {
                 stack.innerHTML = `
                     <div class="w-full h-full rounded-3xl glass-card flex flex-col items-center justify-center p-8 text-center border border-slate-800">
-                        <div class="w-16 h-16 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-2xl mb-4">
+                        <div class="w-16 h-16 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-2xl mb-4" aria-hidden="true">
                             <i class="fa-solid fa-check"></i>
                         </div>
                         <h3 class="text-xl font-bold text-white mb-2">Deck Fully Explored!</h3>
@@ -414,9 +423,9 @@
             card.innerHTML = `
                 <div class="relative w-full h-[65%] pointer-events-none">
                     <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover">
-                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent" aria-hidden="true"></div>
                     <div class="absolute top-4 left-4 z-10">
-                        <span class="px-3 py-1 rounded-full text-xs font-bold bg-slate-950/80 backdrop-blur-md text-emerald-400 border border-slate-800 shadow-lg">
+                        <span class="px-3 py-1 rounded-full text-xs font-bold bg-slate-950/85 backdrop-blur-md text-emerald-400 border border-slate-800 shadow-lg">
                             ${item.category}
                         </span>
                     </div>
@@ -429,7 +438,7 @@
                 <div class="p-6 flex-1 flex flex-col justify-between bg-slate-900 pointer-events-auto">
                     <div>
                         <h3 class="text-2xl font-extrabold text-white mb-1">${item.title}</h3>
-                        <p class="text-slate-400 text-xs flex items-center mb-3"><i class="fa-solid fa-location-dot mr-1.5 text-emerald-400"></i> ${item.location}</p>
+                        <p class="text-slate-400 text-xs flex items-center mb-3"><i class="fa-solid fa-location-dot mr-1.5 text-emerald-400" aria-hidden="true"></i> ${item.location}</p>
                         <p class="text-slate-300 text-xs line-clamp-2">${item.tagline}</p>
                     </div>
                     <div class="flex items-center justify-between pt-4 border-t border-slate-800">
@@ -437,8 +446,8 @@
                             <span class="block text-[10px] uppercase tracking-wider text-slate-400">Budget</span>
                             <span class="text-sm font-bold text-white">${item.budget}</span>
                         </div>
-                        <button onclick="openModal(${item.id})" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold transition-all">
-                            View Itinerary <i class="fa-solid fa-arrow-right ml-1 text-emerald-400"></i>
+                        <button onclick="openModal(${item.id})" aria-label="View itinerary for ${item.title}" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold transition-all">
+                            View Itinerary <i class="fa-solid fa-arrow-right ml-1 text-emerald-400" aria-hidden="true"></i>
                         </button>
                     </div>
                 </div>
@@ -522,20 +531,29 @@
             renderSwipeCard();
         }
 
-        // EXPLORE GRID
         function renderExploreGrid(data) {
             const grid = document.getElementById('destinationGrid');
             grid.innerHTML = '';
 
+            if (data.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full py-12 text-center text-slate-500 text-xs glass-card rounded-2xl">
+                        <i class="fa-solid fa-filter-circle-xmark text-3xl mb-2" aria-hidden="true"></i>
+                        <p>No destinations match your active filters.</p>
+                    </div>
+                `;
+                return;
+            }
+
             data.forEach(item => {
-                const card = document.createElement('div');
+                const card = document.createElement('article');
                 card.className = "rounded-2xl overflow-hidden glass-card border border-slate-800 hover:border-emerald-500/50 transition-all duration-300 group flex flex-col";
                 card.innerHTML = `
                     <div class="relative h-48 w-full overflow-hidden bg-slate-900">
                         <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1000&q=80'">
-                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent"></div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent" aria-hidden="true"></div>
                         <div class="absolute top-3 left-3 z-10">
-                            <span class="px-3 py-1 rounded-full text-[10px] font-bold bg-slate-950/80 backdrop-blur-md text-emerald-400 border border-slate-800 shadow-md">
+                            <span class="px-3 py-1 rounded-full text-[10px] font-bold bg-slate-950/85 backdrop-blur-md text-emerald-400 border border-slate-800 shadow-md">
                                 ${item.category}
                             </span>
                         </div>
@@ -543,12 +561,12 @@
                     <div class="p-5 flex-1 flex flex-col justify-between bg-slate-900">
                         <div>
                             <h3 class="text-lg font-bold text-white mb-1">${item.title}</h3>
-                            <p class="text-slate-400 text-xs mb-3 flex items-center"><i class="fa-solid fa-location-dot mr-1.5 text-emerald-400"></i> ${item.location}</p>
+                            <p class="text-slate-400 text-xs mb-3 flex items-center"><i class="fa-solid fa-location-dot mr-1.5 text-emerald-400" aria-hidden="true"></i> ${item.location}</p>
                             <p class="text-slate-300 text-xs line-clamp-2 mb-4">${item.tagline}</p>
                         </div>
                         <div class="flex items-center justify-between pt-3 border-t border-slate-800">
                             <span class="text-xs font-bold text-emerald-400">${item.budget}</span>
-                            <button onclick="openModal(${item.id})" class="px-3.5 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500 hover:text-slate-950 text-xs font-bold transition-all">
+                            <button onclick="openModal(${item.id})" aria-label="Explore details for ${item.title}" class="px-3.5 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500 hover:text-slate-950 text-xs font-bold transition-all">
                                 Explore
                             </button>
                         </div>
@@ -574,7 +592,6 @@
             }
         }
 
-        // WISHLIST DRAWER
         function toggleWishlistDrawer() {
             const drawer = document.getElementById('wishlistDrawer');
             drawer.classList.toggle('hidden');
@@ -589,7 +606,7 @@
             if (savedDestinations.length === 0) {
                 container.innerHTML = `
                     <div class="text-center py-12 text-slate-500 text-xs">
-                        <i class="fa-solid fa-heart-crack text-3xl mb-2"></i>
+                        <i class="fa-solid fa-heart-crack text-3xl mb-2" aria-hidden="true"></i>
                         <p>No saved getaways yet. Swipe or explore to add destinations!</p>
                     </div>
                 `;
@@ -600,13 +617,13 @@
                 const div = document.createElement('div');
                 div.className = "flex items-center space-x-3 bg-slate-950 p-3 rounded-2xl border border-slate-800";
                 div.innerHTML = `
-                    <img src="${item.image}" class="w-16 h-16 rounded-xl object-cover">
+                    <img src="${item.image}" alt="${item.title}" class="w-16 h-16 rounded-xl object-cover">
                     <div class="flex-1 min-w-0">
                         <h4 class="text-xs font-bold text-white truncate">${item.title}</h4>
                         <p class="text-[10px] text-slate-400">${item.location}</p>
                         <span class="text-[10px] font-bold text-emerald-400">${item.budget}</span>
                     </div>
-                    <button onclick="removeWishlistItem(${item.id})" class="text-slate-500 hover:text-rose-500 p-2"><i class="fa-solid fa-trash-can text-xs"></i></button>
+                    <button onclick="removeWishlistItem(${item.id})" aria-label="Remove ${item.title} from wishlist" class="text-slate-500 hover:text-rose-500 p-2"><i class="fa-solid fa-trash-can text-xs" aria-hidden="true"></i></button>
                 `;
                 container.appendChild(div);
             });
@@ -624,7 +641,6 @@
             document.getElementById('savedCountBadge').textContent = savedDestinations.length;
         }
 
-        // AI VIBE WIZARD
         function openAiWizard() {
             const modal = document.getElementById('aiWizardModal');
             document.getElementById('wizardStep1').classList.remove('hidden');
@@ -657,7 +673,6 @@
             }
         }
 
-        // MODAL ITINERARY
         function openModal(id) {
             const item = destinations.find(d => d.id === id);
             if (!item) return;
@@ -724,9 +739,9 @@
             const isSaved = savedDestinations.some(d => d.id === activeModalDestination.id);
             const saveBtn = document.getElementById('modalSaveBtn');
             if (isSaved) {
-                saveBtn.innerHTML = `<i class="fa-solid fa-heart mr-2 text-rose-500"></i> Saved in Wishlist`;
+                saveBtn.innerHTML = `<i class="fa-solid fa-heart mr-2 text-rose-500" aria-hidden="true"></i> Saved in Wishlist`;
             } else {
-                saveBtn.innerHTML = `<i class="fa-solid fa-heart mr-2 text-slate-500"></i> Save to Wishlist`;
+                saveBtn.innerHTML = `<i class="fa-solid fa-heart mr-2 text-slate-500" aria-hidden="true"></i> Save to Wishlist`;
             }
         }
 
