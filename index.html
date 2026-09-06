@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     fontFamily: {
@@ -28,10 +29,11 @@
     </script>
     <style>
         .glass-card {
-            background: rgba(15, 23, 42, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            background: rgba(15, 23, 42, 0.92);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
             border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
         }
         .hide-scrollbar::-webkit-scrollbar {
             display: none;
@@ -42,7 +44,7 @@
         }
         .swipe-card {
             touch-action: none;
-            transition: transform 0.2s ease, opacity 0.2s ease;
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s ease;
         }
     </style>
 </head>
@@ -53,7 +55,7 @@
         <span id="toastMsg">Action successful</span>
     </div>
 
-    <header class="sticky top-0 z-40 backdrop-blur-xl border-b border-slate-800/80 bg-slate-950/70">
+    <header class="sticky top-0 z-40 backdrop-blur-xl border-b border-slate-800/80 bg-slate-950/80">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
             <div class="flex items-center space-x-3">
                 <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-300 flex items-center justify-center shadow-lg shadow-emerald-500/20">
@@ -96,7 +98,7 @@
                 <p class="text-slate-400 text-xs sm:text-sm">Swipe right or drag to save your vibe, swipe left to pass.</p>
             </div>
 
-            <div class="relative w-full max-w-sm sm:max-w-md mx-auto h-[520px] flex items-center justify-center">
+            <div class="relative w-full max-w-sm sm:max-w-md mx-auto h-[540px] flex items-center justify-center">
                 <div id="cardStack" class="w-full h-full relative">
                     </div>
             </div>
@@ -121,7 +123,7 @@
                     <p class="text-slate-400 text-sm">Filter through mood, budget, and travel style.</p>
                 </div>
                 <div id="filterContainer" class="flex flex-wrap gap-2">
-                    <button onclick="filterDestinations('All')" class="filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-emerald-500 text-slate-950 transition-all">All Vibe</button>
+                    <button onclick="filterDestinations('All')" class="filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-emerald-500 text-slate-950 transition-all shadow-md shadow-emerald-500/20">All Vibe</button>
                     <button onclick="filterDestinations('Nature')" class="filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-slate-900 text-slate-300 border border-slate-800 hover:bg-slate-800 transition-all">Nature & Hills</button>
                     <button onclick="filterDestinations('Coastal')" class="filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-slate-900 text-slate-300 border border-slate-800 hover:bg-slate-800 transition-all">Coastal Breeze</button>
                     <button onclick="filterDestinations('Culture')" class="filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-slate-900 text-slate-300 border border-slate-800 hover:bg-slate-800 transition-all">Culture & Heritage</button>
@@ -282,7 +284,7 @@
                 tagline: "Palaces mirrored in calm waters and romantic rooftop dining.",
                 category: "Culture",
                 location: "Rajasthan, India",
-                image: "https://images.unsplash.com/photo-1615836245337-f5b9b2303fbd?auto=format&fit=crop&w=1000&q=80",
+                image: "https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1000&q=80",
                 budget: "$350 - $600",
                 bestTime: "Sep - Mar",
                 match: "92%",
@@ -295,36 +297,36 @@
             },
             {
                 id: 4,
-                title: "Coorg Coffee Highlands",
-                tagline: "Aromatic spice plantations, cascading waterfalls, and cozy cabin stays.",
+                title: "Himalayan Ridge",
+                tagline: "Snowy alpine passes, ancient monasteries, and starry mountain nights.",
                 category: "Nature",
-                location: "Karnataka, India",
-                image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1000&q=80",
-                budget: "$200 - $350",
-                bestTime: "All Year",
-                match: "90%",
-                description: "Unwind surrounded by lush green coffee estates and towering rosewood trees. Enjoy homestyle Kodava cuisine around an evening bonfire.",
+                location: "Himachal, India",
+                image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1000&q=80",
+                budget: "$300 - $480",
+                bestTime: "May - Oct",
+                match: "94%",
+                description: "Breathe in pure mountain oxygen surrounded by gigantic snow-capped Himalayan summits and pristine alpine flora.",
                 itinerary: [
-                    { time: "Sat - 10:30 AM", title: "Coffee Estate Walk", desc: "Guided tour through Robusta and Arabica plantations with fresh brew tasting." },
-                    { time: "Sat - 03:30 PM", title: "Abbey Falls Trek", desc: "Walk through private spice trails leading to gushing jungle waterfalls." },
-                    { time: "Sun - 11:00 AM", title: "Tibetan Monastery Visit", desc: "Experience tranquil prayer chants and golden architecture at Namdroling." }
+                    { time: "Sat - 09:00 AM", title: "Mountain Base Arrival", desc: "Check into a wooden alpine chalet overlooking pine forests." },
+                    { time: "Sat - 02:00 PM", title: "Glacial Valley Trek", desc: "Trek through high-altitude wildflower meadows." },
+                    { time: "Sun - 07:00 AM", title: "Monastery Sunrise Chant", desc: "Experience morning prayers with local monks." }
                 ]
             },
             {
                 id: 5,
-                title: "Pondicherry French Quarter",
-                tagline: "Bougainvillea-draped villas, bohemian boutiques, and seaside promenades.",
-                category: "Coastal",
-                location: "Puducherry, India",
-                image: "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&w=1000&q=80",
-                budget: "$220 - $380",
-                bestTime: "Oct - Mar",
-                match: "89%",
-                description: "Experience a unique blend of French colonial charm and South Indian soul. Rent a bicycle to explore quiet avenues and artisan cafes.",
+                title: "Temple Sanctuary",
+                tagline: "Gleaming sacred shrines, vibrant evening lights, and ancient spiritual arts.",
+                category: "Culture",
+                location: "Tamil Nadu, India",
+                image: "https://images.unsplash.com/photo-1621570279611-996d39d26dec?auto=format&fit=crop&w=1000&q=80",
+                budget: "$180 - $320",
+                bestTime: "Nov - Feb",
+                match: "91%",
+                description: "Discover towering gopurams, intricate stonework, and deep-rooted classical cultural traditions.",
                 itinerary: [
-                    { time: "Sat - 09:00 AM", title: "Promenade Seaside Stroll", desc: "Enjoy traffic-free morning breezes along the Bay of Bengal coastline." },
-                    { time: "Sat - 02:00 PM", title: "Auroville Meditation Dome", desc: "Visit the futuristic golden spherical Matrimandir for silent reflection." },
-                    { time: "Sun - 10:00 AM", title: "French Bakery Breakfast", desc: "Savor authentic croissants and cafe au lait in a shaded courtyard." }
+                    { time: "Sat - 10:00 AM", title: "Heritage Architecture Tour", desc: "Explore multi-tiered temple complexes and ancient carvings." },
+                    { time: "Sat - 04:00 PM", title: "Classical Music & Dance", desc: "Attend a traditional evening performance." },
+                    { time: "Sun - 09:00 AM", title: "Local Silk Weaving Visit", desc: "Witness master artisans craft authentic handloom silks." }
                 ]
             },
             {
@@ -413,13 +415,13 @@
                 <div class="relative w-full h-[65%] pointer-events-none">
                     <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover">
                     <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
-                    <div class="absolute top-4 left-4">
-                        <span class="px-3 py-1 rounded-full text-xs font-bold bg-slate-950/80 backdrop-blur-md text-emerald-400 border border-slate-800">
+                    <div class="absolute top-4 left-4 z-10">
+                        <span class="px-3 py-1 rounded-full text-xs font-bold bg-slate-950/80 backdrop-blur-md text-emerald-400 border border-slate-800 shadow-lg">
                             ${item.category}
                         </span>
                     </div>
-                    <div class="absolute top-4 right-4">
-                        <span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-500 text-slate-950">
+                    <div class="absolute top-4 right-4 z-10">
+                        <span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-500 text-slate-950 shadow-lg">
                             ${item.match} Match
                         </span>
                     </div>
@@ -529,10 +531,11 @@
                 const card = document.createElement('div');
                 card.className = "rounded-2xl overflow-hidden glass-card border border-slate-800 hover:border-emerald-500/50 transition-all duration-300 group flex flex-col";
                 card.innerHTML = `
-                    <div class="relative h-48 w-full overflow-hidden">
-                        <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                        <div class="absolute top-3 left-3">
-                            <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-slate-950/80 backdrop-blur-md text-emerald-400">
+                    <div class="relative h-48 w-full overflow-hidden bg-slate-900">
+                        <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1000&q=80'">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent"></div>
+                        <div class="absolute top-3 left-3 z-10">
+                            <span class="px-3 py-1 rounded-full text-[10px] font-bold bg-slate-950/80 backdrop-blur-md text-emerald-400 border border-slate-800 shadow-md">
                                 ${item.category}
                             </span>
                         </div>
@@ -559,7 +562,7 @@
             document.querySelectorAll('.filter-btn').forEach(btn => {
                 btn.className = "filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-slate-900 text-slate-300 border border-slate-800 hover:bg-slate-800 transition-all";
                 if (btn.textContent.includes(category) || (category === 'All' && btn.textContent.includes('All Vibe'))) {
-                    btn.className = "filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-emerald-500 text-slate-950 transition-all";
+                    btn.className = "filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-emerald-500 text-slate-950 transition-all shadow-md shadow-emerald-500/20";
                 }
             });
 
