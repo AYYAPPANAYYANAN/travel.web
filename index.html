@@ -4,11 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WanderLuxe — Curated Weekend Escapes</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Plus Jakarta Sans -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
         tailwind.config = {
@@ -51,13 +48,11 @@
 </head>
 <body class="bg-slate-950 text-slate-100 font-sans antialiased min-h-screen selection:bg-emerald-500 selection:text-slate-950">
 
-    <!-- Toast Notification -->
     <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-emerald-500 text-slate-950 px-5 py-3 rounded-2xl shadow-2xl font-bold text-xs flex items-center space-x-2">
         <i class="fa-solid fa-circle-check text-base"></i>
         <span id="toastMsg">Action successful</span>
     </div>
 
-    <!-- Header / Navigation -->
     <header class="sticky top-0 z-40 backdrop-blur-xl border-b border-slate-800/80 bg-slate-950/70">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
             <div class="flex items-center space-x-3">
@@ -70,7 +65,6 @@
                 </div>
             </div>
 
-            <!-- Mode Switcher -->
             <div class="flex items-center bg-slate-900 p-1.5 rounded-full border border-slate-800 shadow-inner">
                 <button id="modeSwipeBtn" onclick="switchMode('swipe')" class="px-4 py-2 rounded-full text-xs font-bold transition-all duration-300 bg-emerald-500 text-slate-950 shadow-md">
                     <i class="fa-solid fa-bolt mr-1.5"></i> Swipe Deck
@@ -80,7 +74,6 @@
                 </button>
             </div>
 
-            <!-- Actions Right -->
             <div class="flex items-center space-x-3">
                 <button onclick="openAiWizard()" class="hidden md:flex items-center space-x-2 bg-gradient-to-r from-teal-500/10 to-emerald-500/10 border border-emerald-500/30 px-4 py-2 rounded-full text-xs font-bold text-emerald-400 hover:bg-emerald-500/20 transition-all">
                     <i class="fa-solid fa-wand-magic-sparkles"></i>
@@ -95,24 +88,19 @@
         </div>
     </header>
 
-    <!-- Main Container -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
-        <!-- VIEW 1: SWIPE DISCOVERY MODE -->
         <section id="swipeView" class="transition-all duration-500">
             <div class="text-center max-w-xl mx-auto mb-8">
                 <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-white mb-2">Where will your next 48 hours take you?</h1>
                 <p class="text-slate-400 text-xs sm:text-sm">Swipe right or drag to save your vibe, swipe left to pass.</p>
             </div>
 
-            <!-- Card Stack Container -->
             <div class="relative w-full max-w-sm sm:max-w-md mx-auto h-[520px] flex items-center justify-center">
                 <div id="cardStack" class="w-full h-full relative">
-                    <!-- Cards dynamically inserted -->
-                </div>
+                    </div>
             </div>
 
-            <!-- Swipe Action Buttons -->
             <div class="flex items-center justify-center space-x-6 mt-8">
                 <button onclick="triggerSwipe('left')" class="w-16 h-16 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-rose-500 hover:bg-rose-500 hover:text-white transition-all duration-300 shadow-xl group">
                     <i class="fa-solid fa-xmark text-2xl group-hover:scale-110 transition-transform"></i>
@@ -126,14 +114,12 @@
             </div>
         </section>
 
-        <!-- VIEW 2: EXPLORE GRID MODE -->
         <section id="exploreView" class="hidden transition-all duration-500">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
                 <div>
                     <h1 class="text-3xl font-extrabold tracking-tight text-white mb-1">Destination Explorer</h1>
                     <p class="text-slate-400 text-sm">Filter through mood, budget, and travel style.</p>
                 </div>
-                <!-- Filter Pills -->
                 <div id="filterContainer" class="flex flex-wrap gap-2">
                     <button onclick="filterDestinations('All')" class="filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-emerald-500 text-slate-950 transition-all">All Vibe</button>
                     <button onclick="filterDestinations('Nature')" class="filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-slate-900 text-slate-300 border border-slate-800 hover:bg-slate-800 transition-all">Nature & Hills</button>
@@ -143,15 +129,12 @@
                 </div>
             </div>
 
-            <!-- Grid -->
             <div id="destinationGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Dynamically populated -->
-            </div>
+                </div>
         </section>
 
     </main>
 
-    <!-- WISHLIST SLIDE-OVER DRAWER -->
     <div id="wishlistDrawer" class="fixed inset-0 z-50 overflow-hidden hidden">
         <div class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm transition-opacity" onclick="toggleWishlistDrawer()"></div>
         <div class="absolute inset-y-0 right-0 max-w-full flex pl-10">
@@ -165,10 +148,9 @@
                     </button>
                 </div>
                 <div id="wishlistContainer" class="flex-1 overflow-y-auto p-6 space-y-4">
-                    <!-- Populated via JS -->
-                </div>
+                    </div>
                 <div class="p-6 border-t border-slate-800 bg-slate-950/50">
-                    <button onclick="alert('Proceeding to group travel planner check-out!')" class="w-full py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-xs uppercase tracking-wider shadow-lg shadow-emerald-500/20 transition-all">
+                    <button onclick="showToast('Group checkout successfully initiated!'); toggleWishlistDrawer();" class="w-full py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-xs uppercase tracking-wider shadow-lg shadow-emerald-500/20 transition-all">
                         Plan Weekend Group Trip
                     </button>
                 </div>
@@ -176,7 +158,6 @@
         </div>
     </div>
 
-    <!-- AI VIBE FINDER WIZARD MODAL -->
     <div id="aiWizardModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
         <div class="bg-slate-900 border border-slate-800 w-full max-w-lg rounded-3xl p-6 sm:p-8 shadow-2xl relative">
             <button onclick="closeAiWizard()" class="absolute top-6 right-6 text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
@@ -206,7 +187,6 @@
         </div>
     </div>
 
-    <!-- Itinerary / Trip Detail Modal -->
     <div id="detailModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
         <div id="modalContent" class="bg-slate-900 border border-slate-800 w-full max-w-2xl rounded-3xl overflow-hidden shadow-2xl transform scale-95 transition-transform duration-300 max-h-[90vh] flex flex-col">
             <div class="relative h-64 sm:h-72 w-full">
@@ -260,7 +240,6 @@
         </div>
     </div>
 
-    <!-- JavaScript Application Logic -->
     <script>
         const destinations = [
             {
@@ -463,7 +442,6 @@
                 </div>
             `;
 
-            // Attach drag physics
             initCardDrag(card);
             stack.appendChild(card);
         }
@@ -548,7 +526,6 @@
             grid.innerHTML = '';
 
             data.forEach(item => {
-                const isSaved = savedDestinations.some(d => d.id === item.id);
                 const card = document.createElement('div');
                 card.className = "rounded-2xl overflow-hidden glass-card border border-slate-800 hover:border-emerald-500/50 transition-all duration-300 group flex flex-col";
                 card.innerHTML = `
